@@ -1,0 +1,22 @@
+.containerCampo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.containerTexto {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.titulo {
+    font-family: "Noto Sans";
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #666666
+}
