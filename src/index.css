@@ -2,17 +2,23 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  width: 100vw;
+  height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+    height: 36px;
+    background-color: #2563eb; /* Cor azul escura (bg-blue-600 do Tailwind) */
+    color: white; /* Cor do texto em branco para contrastar */
+    border-radius: 4px;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    width: 100%;
 }
 
 a {
@@ -30,6 +36,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(#232630, #050507);
+  
 }
 
 h1 {
@@ -37,39 +45,29 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
 input {
+  padding: 10px;
+  color: #ffffff;
+  background: transparent;
   border: none;
   outline: none;
 }
+
+input:focus {
+  background-color: none; /* Alterando fundo quando o campo estiver em foco */
+  outline: none; /* Remove a linha de contorno (se necessário) */
+}
+
+input:-webkit-autofill {
+  background-color: none !important; /* Remove o fundo branco */
+}
+
+input:-moz-placeholder-shown {
+  background-color: none !important; /* Remove o fundo no Firefox */
+}
+
+/* No caso de utilizar `:focus` e também aplicar ao autofill */
+input:focus:-webkit-autofill {
+  background-color: none !important; /* Garante que o fundo não mude ao focar */
+}
+

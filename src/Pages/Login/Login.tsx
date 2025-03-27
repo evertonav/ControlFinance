@@ -1,9 +1,9 @@
 import { FormEvent, useState } from "react";
-import InputCommon from "../../components/Input/InputCommon";
 import style from './Login.module.css'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../../Services/FirebaseConnection";
 import { useNavigate } from "react-router-dom";
+import InputCommon from "../../components/Input/InputCommon";
 
 
 export default function Login() {
@@ -16,34 +16,51 @@ export default function Login() {
     function handlerOnSubmitForm(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
+        if (email === '' || senha === '') {
+            alert("Preencha todos os campos!")
+            return
+        }
 
         signInWithEmailAndPassword(auth, email, senha)
         .then(() => {            
-            console.log('Logado com sucesso!')
-            navegar('/cad_expense')
+            alert('Logado com sucesso!')
+            navegar('/cadExpense', { replace: true })
         })
         .catch((error) => {
-            console.log('Erro: ', error)
+            alert('Erro: ' + error)
         }) 
     }
 
     return (
     <form className={style.container} onSubmit={handlerOnSubmitForm}>
+
+        <h1 className={style.logo}>Control <span className={style.logoRest}>Finance</span></h1>
+
         <div className={style.containerFields}>
             <InputCommon 
                 classNameContainer={style.width50Percent} 
                 classNameContainerInput={style.widthFull} 
+                type="email"
                 title="E-mail" 
+                placeholder="Digite o seu email..."
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)}/>
 
             <InputCommon 
                 classNameContainer={style.width50Percent} 
-                classNameContainerInput={style.widthFull}  
+                classNameContainerInput={style.widthFull} 
+                placeholder="Digite a sua senha..." 
+                type="password"
                 title="Senha" 
                 value={senha} 
                 onChange={(e) => setSenha(e.target.value)}/>
-            <button type="submit">Acessar</button>
+
+            <button
+                className={`${style.buttonAcessar} ${style.width50Percent}`} 
+                type="submit">
+                
+                Acessar
+            </button>
         </div>        
     </form>)
 }

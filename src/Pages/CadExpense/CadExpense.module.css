@@ -2,10 +2,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    justify-content: center;
     gap: 8px;
     height: 100%;
-    width: 100vh;
+    width: 100%;
 }
 
 .containerButton {
@@ -20,13 +20,31 @@
 .containerHalf {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
     width: 100%;
 }
 
+.containerFields {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    width: 80%;
+}
+
+.containerButton {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    width: 80%;
+}
+
 .inputTamanho {
-    width: 98.5%;
+    width: 100%;
 }
 
 .button {

@@ -1,7 +1,5 @@
 import {  FormEvent, useState } from 'react'
-import InputCommon from '../../components/Input/InputCommon'
 import style from './CadExpense.module.css'
-import CheckBoxCommon from '../../components/CheckBox/CheckBoxCommon'
 import dayjs, { Dayjs } from 'dayjs'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -9,7 +7,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../Services/FirebaseConnection'
-import ListExpense from '../ListExpense/ListExpense'
+import ListExpense from '../../Features/ListExpense/ListExpense'
+import CheckBoxCommon from '../../Components/CheckBox/CheckBoxCommon';
+import InputCommon from '../../components/Input/InputCommon';
 
 export default function CadExpense() {
   const [data, setData] = useState<Dayjs | null>(dayjs('2025-03-26'));
@@ -37,7 +37,7 @@ export default function CadExpense() {
   return (
     <div className={style.container}>
       <form className={style.containerHalf} onSubmit={handleSubmit}>      
-        <div className={style.containerHalf}>
+        <div className={style.containerFields}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker', 'DatePicker']}>          
               <DatePicker

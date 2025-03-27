@@ -14,9 +14,10 @@
 }
 
 .titulo {
+    margin-left: 5px;
     font-family: "Noto Sans";
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
-    color: #666666
+    color: #fff
 }
