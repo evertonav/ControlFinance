@@ -9,7 +9,7 @@ import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../Services/FirebaseConnection'
 import ListExpense from '../../Features/ListExpense/ListExpense'
 import CheckBoxCommon from '../../Components/CheckBox/CheckBoxCommon';
-import InputCommon from '../../components/Input/InputCommon';
+import InputCommon from '../../Components/Input/InputCommon'
 
 export default function CadExpense() {
   const [data, setData] = useState<Dayjs | null>(dayjs('2025-03-26'));
@@ -55,7 +55,7 @@ export default function CadExpense() {
             value={description} 
             onChange={(e) => setDescription(e.target.value)}/>      
           
-          <InputCommon 
+          <InputCommon
               classNameContainer={style.inputTamanho}            
               classNameContainerInput={style.inputTamanho}
               title='Valor' 

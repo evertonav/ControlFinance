@@ -1,9 +1,9 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import style from './Login.module.css'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../../Services/FirebaseConnection";
 import { useNavigate } from "react-router-dom";
-import InputCommon from "../../components/Input/InputCommon";
+import InputCommon from "../../Components/Input/InputCommon";
 
 
 export default function Login() {
@@ -44,7 +44,7 @@ export default function Login() {
                 title="E-mail" 
                 placeholder="Digite o seu email..."
                 value={email} 
-                onChange={(e) => setEmail(e.target.value)}/>
+                onChange={(e: ChangeEvent<HTMLInputElement> ) => setEmail(e.target.value)}/>
 
             <InputCommon 
                 classNameContainer={style.width50Percent} 
@@ -53,7 +53,7 @@ export default function Login() {
                 type="password"
                 title="Senha" 
                 value={senha} 
-                onChange={(e) => setSenha(e.target.value)}/>
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setSenha(e.target.value)}/>
 
             <button
                 className={`${style.buttonAcessar} ${style.width50Percent}`} 
