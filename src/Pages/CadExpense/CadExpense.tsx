@@ -1,4 +1,4 @@
-import {  FormEvent, useState } from 'react'
+import {  ChangeEvent, FormEvent, useState } from 'react'
 import style from './CadExpense.module.css'
 import dayjs, { Dayjs } from 'dayjs'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -53,16 +53,16 @@ export default function CadExpense() {
             classNameContainerInput={style.inputTamanho}
             title='Descrição' 
             value={description} 
-            onChange={(e) => setDescription(e.target.value)}/>      
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}/>      
           
           <InputCommon
               classNameContainer={style.inputTamanho}            
               classNameContainerInput={style.inputTamanho}
               title='Valor' 
               value={value} 
-              onChange={(e) => setValue(Number(e.target.value))}/>
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(Number(e.target.value))}/>
 
-          <CheckBoxCommon title='Pago' checked={bePaid} onChange={(e) => setBePaid(e.target.checked)}/>
+          <CheckBoxCommon title='Pago' checked={bePaid} onChange={(e: ChangeEvent<HTMLInputElement>) => setBePaid(e.target.checked)}/>
         </div>     
 
         <div className={style.containerButton}>
