@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../../Services/FirebaseConnection";
 import { useNavigate } from "react-router-dom";
 import InputCommon from "../../Components/Input/InputCommon";
+import toast from "react-hot-toast";
 
 
 export default function Login() {
@@ -17,17 +18,17 @@ export default function Login() {
         e.preventDefault()
 
         if (email === '' || senha === '') {
-            alert("Preencha todos os campos!")
+            toast.error('Você precisa preencher os campos!')
             return
         }
 
         signInWithEmailAndPassword(auth, email, senha)
         .then(() => {            
-            alert('Logado com sucesso!')
+            toast.success('Logado com sucesso!')
             navegar('/cadExpense', { replace: true })
         })
         .catch((error) => {
-            alert('Erro: ' + error)
+            toast.error('Erro: ' + error)
         }) 
     }
 

@@ -32,6 +32,10 @@ table td {
     text-align: center;
 }
 
+th {
+    color: rgb(44, 44, 44);
+}
+
 .tdLabel {
     font-weight: bold;
     font-size: 18px;
