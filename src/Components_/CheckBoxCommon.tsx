@@ -1,5 +1,7 @@
 import { InputHTMLAttributes } from "react"
 
+//Atualizar a pasta no git
+
 interface CheckBoxCommonProps extends InputHTMLAttributes<HTMLInputElement> {  
     title: string
 }

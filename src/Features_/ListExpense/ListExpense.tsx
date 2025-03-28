@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import { db } from "../../Services/FirebaseConnection"
 import style from './ListExpense.module.css'
 
+//Commit para atualizar as pastas no git
+
 interface EntityExpense {
     bePaid: boolean
     data: number
