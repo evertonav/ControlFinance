@@ -4,6 +4,7 @@ import './index.css'
 import { router } from './Routes/Router.tsx'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import ExpenseProvider from './Contexts/CRUDExpense.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -11,6 +12,9 @@ createRoot(document.getElementById('root')!).render(
       position="top-center"
       reverseOrder={false}
     />
-    <RouterProvider router={router} />
+    <ExpenseProvider>
+      <RouterProvider router={router} />
+    </ExpenseProvider>
+    
   </StrictMode>,
 )
