@@ -3,6 +3,7 @@ import { EntityExpense } from "../Services/Expense/EntityExpense";
 import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../Services/FirebaseConnection";
 import toast from "react-hot-toast";
+import { GetUserLogado } from "../Services/Login/Logar";
 
 interface ExpenseProviderProps {
     children: ReactNode
@@ -10,7 +11,7 @@ interface ExpenseProviderProps {
 
 interface ExpenseContextData {
     expense?: EntityExpense
-    setExpense: Dispatch<SetStateAction<EntityExpense | undefined>>
+    setExpense: Dispatch<SetStateAction<EntityExpense>>
     add: () => boolean
     update: () => Promise<boolean>
     deletar: (id: string) => void
@@ -18,14 +19,17 @@ interface ExpenseContextData {
 
 export const ExpenseContext = createContext({} as ExpenseContextData)
 
+function GetExpenseDefault(): EntityExpense {
+    return {
+        bePaid: false,
+        date: new Date().valueOf(),
+        description: '',
+        value: 0
+    }
+}
+
 function ExpenseProvider({ children } : ExpenseProviderProps){
-    const [expense, setExpense] = useState<EntityExpense | undefined>(
-        {
-            bePaid: false,
-            date: new Date().valueOf(),
-            description: '',
-            value: 0
-        })  
+    const [expense, setExpense] = useState<EntityExpense>(GetExpenseDefault()) 
     
     async function deletar(id: string) {    
         const docRef = doc(db, "expenses", id)   
@@ -33,7 +37,7 @@ function ExpenseProvider({ children } : ExpenseProviderProps){
         await deleteDoc(docRef)  
         
         if (expense?.id === id) {
-            setExpense(undefined)
+            setExpense(GetExpenseDefault())
         }
 
         toast.success('Deletado com sucesso!')           
@@ -51,17 +55,23 @@ function ExpenseProvider({ children } : ExpenseProviderProps){
                 return false
             }
 
-            const userRef = doc(db, 'expenses', expense.id ?? '');
+            if (GetUserLogado() === '') {
+                toast.error('Você precisa estar logado no sistema, faça login novamente!')
+                return false
+            }
+
+            const userRef = doc(db, 'expenses', expense.id ?? '');                  
         
             // Atualizar o documento
             await updateDoc(userRef, {
                 bePaid: expense.bePaid,
                 data: expense.date,
                 description: expense.description,
-                value: expense.value
+                value: expense.value,            
+                user: GetUserLogado()    
             });
 
-            setExpense(undefined)
+            setExpense(GetExpenseDefault())
             toast.success('Atualizado com sucesso!')
                         
           } catch (error) {
@@ -74,17 +84,24 @@ function ExpenseProvider({ children } : ExpenseProviderProps){
     }
 
     function add() : boolean {
+        
+
         if(expense === undefined) {
             toast.error('Você preecisa preencher os dados corretamente.')
             return false
-        }        
+        }     
+        
+        if (GetUserLogado() === '') {
+            toast.error('Você precisa estar logado no sistema, faça login novamente!')
+            return false
+        }
 
         addDoc(collection(db, "expenses"), { 
             bePaid: expense.bePaid,
             date: expense.date,
             description: expense.description,
-            value: expense.value
-            
+            value: expense.value,
+            user: GetUserLogado()
          })
             .then(() => {
                 toast.success('Registro salvo com sucesso!')
@@ -95,7 +112,7 @@ function ExpenseProvider({ children } : ExpenseProviderProps){
                 return false
             })
 
-        setExpense(undefined)
+        setExpense(GetExpenseDefault())
         return true
     }    
 

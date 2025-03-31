@@ -5,4 +5,5 @@ export interface EntityExpense {
     date: number
     description: string
     value: number
+    user?: string
 }

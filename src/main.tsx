@@ -12,9 +12,10 @@ createRoot(document.getElementById('root')!).render(
       position="top-center"
       reverseOrder={false}
     />
-    <ExpenseProvider>
-      <RouterProvider router={router} />
-    </ExpenseProvider>
+
+      <ExpenseProvider>
+        <RouterProvider router={router} />
+      </ExpenseProvider>
     
   </StrictMode>,
 )

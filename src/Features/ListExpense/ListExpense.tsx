@@ -4,6 +4,7 @@ import { db } from "../../Services/FirebaseConnection"
 import style from './ListExpense.module.css'
 import { EntityExpense } from "../../Services/Expense/EntityExpense"
 import { ExpenseContext } from "../../Contexts/CRUDExpense"
+import { GetUserLogado } from "../../Services/Login/Logar"
 
 function ConverterDataParaPadraoVisual(data: Date) : string {    
     return `${data.getDate().toString().padStart(2, '0')}/${data.getMonth() + 1}/${data.getFullYear()}`
@@ -25,7 +26,7 @@ function GetLastDayMonthNow() : number {
 export default function ListExpense() {
     const [listExpense, setListExpense] = useState<Array<EntityExpense>>([])
     let totalExpense = 0
-    const { setExpense, deletar } = useContext(ExpenseContext)
+    const { setExpense, deletar } = useContext(ExpenseContext)    
 
     async function handlerOnClickDeleteExpense(id: string) {
         deletar(id)        
@@ -33,11 +34,15 @@ export default function ListExpense() {
     
     useEffect(() => {
         const expensesRef = collection(db, "expenses")
-        const queryRef = query(expensesRef,
+
+        const userLogado = GetUserLogado()       
+
+        const queryRef = query(expensesRef,                               
+                               where('user', '==', userLogado),
                                where('date', '>', GetFirstDayMonthNow()),
                                where('date', '<', GetLastDayMonthNow()))
       
-        const unsub = onSnapshot(queryRef, (snapshot) => {
+        const unsub = onSnapshot(queryRef, (snapshot) => {            
             let list: Array<EntityExpense> = []
             
             snapshot.forEach((doc) => {
@@ -48,20 +53,23 @@ export default function ListExpense() {
                         bePaid: doc.data().bePaid,
                         date: doc.data().date,
                         description: doc.data().description,
-                        value: doc.data().value
+                        value: doc.data().value,
+                        user: doc.data().user
                     }
                 )
                 
-            })
+            },)
             console.log('List: ', list)
     
                 setListExpense(list)
+            }, (erro) => {
+                console.error('Erro ao buscar os dados: ' + erro.message)
             })
     
               return () => {
                 unsub()
               }
-          }, [])
+          }, [GetUserLogado()])
 
     return (
         <table>

@@ -37,12 +37,16 @@ export default function CadExpense() {
               <DatePicker
                 label="Data"
                 value={dayjs(expense?.date ?? new Date().valueOf())}
-                onChange={(newValue) =>  setExpense({
-                  bePaid: expense?.bePaid ?? false,
-                  date: newValue?.toDate().valueOf() ?? 0,
-                  description: expense?.description ?? '',
-                  value: expense?.value ?? 0,
-                  id: expense?.id
+                onChange={(newValue) =>  setExpense((expense) => {
+
+                  if (!expense) {
+                    return expense
+                  }
+
+                  const newExpense = { ...expense }
+
+                  newExpense.date = newValue?.toDate().valueOf() ?? new Date().valueOf()
+                  return newExpense                  
                 })}
               />
             
@@ -53,42 +57,51 @@ export default function CadExpense() {
             classNameContainerInput={style.inputTamanho}
             title='Descrição' 
             value={expense?.description ?? ''} 
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>  
-              setExpense({
-                bePaid: expense?.bePaid ?? false,
-                date: expense?.date ?? 0,
-                description: e.target.value,
-                value: expense?.value ?? 0,
-                id: expense?.id
-              })}/>      
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setExpense((expense) => {
+
+              if (!expense) {
+                return expense
+              }
+
+              const newExpense = { ...expense }
+
+              newExpense.description = e.target.value
+              return newExpense                  
+            })}/>      
           
           <InputCommon
               classNameContainer={style.inputTamanho}            
               classNameContainerInput={style.inputTamanho}
               title='Valor' 
               value={expense?.value ?? 0} 
-              onChange={(e: ChangeEvent<HTMLInputElement>) => 
-                setExpense({
-                  bePaid: expense?.bePaid ?? false,
-                  date: expense?.date ?? 0,
-                  description: expense?.description ?? '',
-                  value: Number(e.target.value),
-                  id: expense?.id
-                })}/>
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setExpense((expense) => {
+
+                if (!expense) {
+                  return expense
+                }
+
+                const newExpense = { ...expense }
+
+                newExpense.value = Number(e.target.value)
+                return newExpense                  
+              })}/>
 
           <CheckBoxCommon 
             title='Pago' 
             checked={expense?.bePaid ?? false}
             onChange={
               (e: ChangeEvent<HTMLInputElement>) => {
-                setExpense({
-                  bePaid: e.target.checked,
-                  date: expense?.date ?? 0,
-                  description: expense?.description ?? '',
-                  value: expense?.value ?? 0,
-                  id: expense?.id
-                })
-              }
+                setExpense((expense) => {
+
+                  if (!expense) {
+                    return expense
+                  }
+  
+                  const newExpense = { ...expense }
+  
+                  newExpense.bePaid = e.target.checked
+                  return newExpense                  
+                })}
               }/>
 
           <button type='submit' className={style.button}>Gravar</button>

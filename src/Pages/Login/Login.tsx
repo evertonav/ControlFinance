@@ -1,9 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import style from './Login.module.css'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from "../../Services/FirebaseConnection";
 import { useNavigate } from "react-router-dom";
 import InputCommon from "../../Components/Input/InputCommon";
+import { Logar } from "../../Services/Login/Logar";
 import toast from "react-hot-toast";
 
 
@@ -19,17 +18,16 @@ export default function Login() {
 
         if (email === '' || senha === '') {
             toast.error('Você precisa preencher os campos!')
-            return
+            return 
         }
 
-        signInWithEmailAndPassword(auth, email, senha)
-        .then(() => {            
+        Logar(email, senha)
+        .then(() => {
             toast.success('Logado com sucesso!')
-            navegar('/cadExpense', { replace: true })
-        })
-        .catch((error) => {
+            navegar('/cadExpense', { replace: true }) 
+        }).catch((error) => {
             toast.error('Erro: ' + error)
-        }) 
+        })           
     }
 
     return (

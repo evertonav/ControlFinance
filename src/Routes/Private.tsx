@@ -16,8 +16,9 @@ export function Private( { children } : PrivateProps ) {
                 const userData = {
                     uId: user?.uid,
                     email: user?.email
-                }                
-
+                }           
+                
+                localStorage.removeItem('@reactControlFinance')
                 localStorage.setItem("@reactControlFinance", JSON.stringify(userData))
                 setSigned(true)
             } else {                
