@@ -39,6 +39,7 @@ export default function Login() {
             <InputCommon 
                 classNameContainer={style.width50Percent} 
                 classNameContainerInput={style.widthFull} 
+                className={style.colorWhite}
                 type="email"
                 title="E-mail" 
                 placeholder="Digite o seu email..."
@@ -48,6 +49,7 @@ export default function Login() {
             <InputCommon 
                 classNameContainer={style.width50Percent} 
                 classNameContainerInput={style.widthFull} 
+                className={style.colorWhite}
                 placeholder="Digite a sua senha..." 
                 type="password"
                 title="Senha" 

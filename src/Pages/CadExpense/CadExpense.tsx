@@ -55,6 +55,7 @@ export default function CadExpense() {
           <InputCommon 
             classNameContainer={style.inputTamanho}            
             classNameContainerInput={style.inputTamanho}
+            className={style.colorBlack}
             title='Descrição' 
             value={expense?.description ?? ''} 
             onChange={(e: ChangeEvent<HTMLInputElement>) => setExpense((expense) => {
@@ -72,6 +73,7 @@ export default function CadExpense() {
           <InputCommon
               classNameContainer={style.inputTamanho}            
               classNameContainerInput={style.inputTamanho}
+              className={style.colorBlack}
               title='Valor' 
               value={expense?.value ?? 0} 
               onChange={(e: ChangeEvent<HTMLInputElement>) => setExpense((expense) => {
