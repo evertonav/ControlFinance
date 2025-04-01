@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import ListExpense from '../../Features/ListExpense/ListExpense'
+import ListExpense from './ListExpense'
 import InputCommon from '../../Components/Input/InputCommon'
 import CheckBoxCommon from '../../Components/CheckBoxCommon';
 import { ExpenseContext } from '../../Contexts/CRUDExpense';
