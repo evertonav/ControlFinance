@@ -1,33 +1,22 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import style from './Login.module.css'
-import { useNavigate } from "react-router-dom";
 import InputCommon from "../../Components/Input/InputCommon";
-import { Logar } from "../../Services/Login/Logar";
-import toast from "react-hot-toast";
+import UseLogin from "./UseLogin";
 
 
 export default function Login() {
-    const navegar = useNavigate()
-
-    const [email, setEmail] = useState('')
-    const [senha, setSenha] = useState('')
+    const { 
+        ExecuteLogin,
+        email,
+        setEmail,
+        password,
+        setPassword
+     } = UseLogin()    
     
-
     function handlerOnSubmitForm(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
-        if (email === '' || senha === '') {
-            toast.error('Você precisa preencher os campos!')
-            return 
-        }
-
-        Logar(email, senha)
-        .then(() => {
-            toast.success('Logado com sucesso!')
-            navegar('/cadExpense', { replace: true }) 
-        }).catch((error) => {
-            toast.error('Erro: ' + error)
-        })           
+        ExecuteLogin()
     }
 
     return (
@@ -53,8 +42,8 @@ export default function Login() {
                 placeholder="Digite a sua senha..." 
                 type="password"
                 title="Senha" 
-                value={senha} 
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setSenha(e.target.value)}/>
+                value={password} 
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}/>
 
             <button
                 className={`${style.buttonAcessar} ${style.width50Percent}`} 

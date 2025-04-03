@@ -1,33 +1,27 @@
-import { useContext, useEffect, useState } from "react"
 import style from './ListExpense.module.css'
-import { EntityExpense } from "../../Services/Expense/EntityExpense"
-import { ExpenseContext } from "../../Contexts/CRUDExpense"
-import { GetUserLogado } from "../../Services/Login/Logar"
-import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../Utils/Date/GetDateToNumber"
-import { ConverterDataParaPadraoVisual } from "../../Utils/Date/ConvertDate"
-import { GetExpenses } from "../../Services/Expense/GetExpenses"
-import toast from "react-hot-toast"
-import ShowIcon from "../../Components/ShowIcon/ShowIcon"
+import { ConverterDataParaPadraoVisual } from "../../../Utils/Date/ConvertDate"
+import ShowIcon from "../../../Components/ShowIcon/ShowIcon"
+import UseCadExpense from "../UseCadExpense"
+import useListExpense from "./UseListExpense"
 
 export default function ListExpense() {
-    const [listExpense, setListExpense] = useState<Array<EntityExpense>>([])
+    
     let totalExpense = 0
-    const { setExpense, deletar } = useContext(ExpenseContext)    
+
+    const {
+        listExpense, 
+        setListExpense
+    } = useListExpense()
+
+    const { 
+        ExecuteDelete,
+        setExpense
+     } = UseCadExpense()    
 
     async function handlerOnClickDeleteExpense(id: string) {
-        deletar(id) 
+        ExecuteDelete(id) 
         setListExpense([])       
-    }
-    
-    useEffect(() => {        
-        GetExpenses(GetFirstDayMonthNow(), GetLastDayMonthNow(), GetUserLogado())
-            .then((expenses) => {
-                setListExpense(expenses)
-            }).catch((error) => {
-                toast.error('Não foi possivel buscar os dados, verifique o log.')
-                console.log('GetExpenses: ', error)
-            })        
-          }, [GetUserLogado(), listExpense])
+    }    
 
     return (
         <table>
