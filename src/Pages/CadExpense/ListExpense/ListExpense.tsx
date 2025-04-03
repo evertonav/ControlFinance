@@ -3,14 +3,21 @@ import { ConverterDataParaPadraoVisual } from "../../../Utils/Date/ConvertDate"
 import ShowIcon from "../../../Components/ShowIcon/ShowIcon"
 import UseCadExpense from "../UseCadExpense"
 import useListExpense from "./UseListExpense"
+import { Dispatch, SetStateAction } from 'react'
+import { TabsCadastroExpenseEnum } from '../Enum/TabsCadastroExpense'
 
-export default function ListExpense() {
+interface ListExpenseProps {
+    setAba: Dispatch<SetStateAction<string>>
+}
+
+export default function ListExpense({ setAba } : ListExpenseProps) {
     
     let totalExpense = 0
 
     const {
         listExpense, 
-        setListExpense
+        setListExpense,
+        UpdateList
     } = useListExpense()
 
     const { 
@@ -19,7 +26,7 @@ export default function ListExpense() {
      } = UseCadExpense()    
 
     async function handlerOnClickDeleteExpense(id: string) {
-        ExecuteDelete(id) 
+        await ExecuteDelete(id) && UpdateList()
         setListExpense([])       
     }    
 
@@ -49,13 +56,18 @@ export default function ListExpense() {
                             <td key={i + 4} className={style.tdLabel} data-label='Descrição'>{item.description}</td>
                             <td key={i + 5} className={style.tdLabel} data-label='Valor'>{item.value}</td>                                    
                             <td key={i + 6} className={style.tdLabel} data-label=''>
-                                <ShowIcon nameIcon="edit_square" onClick={() => {
-                                    setExpense(item)                                        
-                                }}/> 
+                                <ShowIcon 
+                                    nameIcon="edit_square"
+                                    className={style.colorEdit} 
+                                    onClick={() => {
+                                        setExpense(item)       
+                                        setAba(TabsCadastroExpenseEnum.Cadastro)                                 
+                                    }}/> 
                             </td>  
                             <td key={i + 7} className={style.tdLabel} data-label=''>
                                 <ShowIcon 
                                     nameIcon="delete"
+                                    className={style.colorDeletar}
                                     onClick={() => {handlerOnClickDeleteExpense(item.id ?? '')}}/>
                                   
                             </td>                                    

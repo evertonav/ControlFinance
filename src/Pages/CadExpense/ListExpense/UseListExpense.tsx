@@ -8,18 +8,27 @@ import toast from "react-hot-toast";
 export default function useListExpense() {
     const [listExpense, setListExpense] = useState<Array<EntityExpense>>([])
 
-    useEffect(() => {        
+    function GetExpensesInternal(){
         GetExpenses(GetFirstDayMonthNow(), GetLastDayMonthNow(), GetUserLogado())
             .then((expenses) => {
                 setListExpense(expenses)
             }).catch((error) => {
                 toast.error('Não foi possivel buscar os dados, verifique o log.')
                 console.log('GetExpenses: ', error)
-            })        
-    }, [GetUserLogado(), listExpense])
+            })  
+    }
+
+    useEffect(() => {        
+        GetExpensesInternal()
+    }, [GetUserLogado()])
+
+    function UpdateList() {
+        GetExpensesInternal()
+    }
 
     return {
         listExpense,
-        setListExpense
+        setListExpense,
+        UpdateList
     }
 }

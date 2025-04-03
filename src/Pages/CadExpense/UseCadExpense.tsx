@@ -19,8 +19,10 @@ export default function UseCadExpense() {
           }
     }
 
-    function ExecuteDelete(id: string) {
-      deletar(id)
+    async function ExecuteDelete(id: string) : Promise<boolean> {
+      return deletar(id)
+              .then(() => true) 
+              .catch(() => false);
     }
 
     function setDate(value?: Date) {

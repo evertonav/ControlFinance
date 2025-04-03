@@ -1,27 +1,58 @@
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Tab } from '@mui/material';
-import { useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 
-export default function TabCommon() {
-  const [value, setValue] = useState('1');
+interface TabCommonProps {
+    tabs: Array<{ id: string, description: string, children: ReactNode }>
+    tabIdDefault?: string 
+    value?: string   
+    setValue?: Dispatch<SetStateAction<string>>
+}
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-    
-    setValue(newValue);
-  };
+export default function TabCommon({ 
+    tabs, 
+    tabIdDefault = '',
+    value,
+    setValue    
+} : TabCommonProps) {
+    const [valueInternal, setValueInternal] = useState(tabIdDefault);
+
+    function GetValueIntercept(): string {
+      return value ? value : valueInternal
+    }
+
+    function setValueIntercept(value: string) {
+      setValue ? setValue(value) : setValueInternal(value)
+    }
+
+    const handleChange = (_event: React.SyntheticEvent, newValue: string) => {    
+        setValueIntercept(newValue);
+    };
+
     return (
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Item One" value="1" />
-              <Tab label="Item Two" value="2" />
-              <Tab label="Item Three" value="3" />
-            </TabList>
-          </Box>
-          <TabPanel value="1">Item One</TabPanel>
-          <TabPanel value="2">Item Two</TabPanel>
-          <TabPanel value="3">Item Three</TabPanel>
-
-        </TabContext>  
+        <Box sx={{ width: '100%', typography: 'body1', height: '100%' }}>
+            <TabContext value={GetValueIntercept()}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <TabList
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center', // Centraliza as Tabs
+                            width: '100%',             // Garante que as Tabs ocupem 100% da largura
+                        }}
+                        onChange={handleChange}>
+                        {tabs.map((item, i) => {                            
+                            return <Tab 
+                                        key={i}
+                                        sx={{ flex: 1, textAlign: 'center' }}
+                                        label={item.description} value={item.id} />
+                        })}                                                
+                    </TabList>
+                </Box>
+                
+                {tabs.map((item, i) => {
+                    return <TabPanel key={i} value={item.id}>{item.children}</TabPanel>
+                })}      
+            </TabContext>
+        </Box>
     )
 }

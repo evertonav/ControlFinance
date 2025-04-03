@@ -14,7 +14,7 @@ interface ExpenseContextData {
     setExpense: Dispatch<SetStateAction<EntityExpense>>
     add: () => boolean
     update: () => Promise<boolean>
-    deletar: (id: string) => void
+    deletar: (id: string) => Promise<boolean>
 }
 
 export const ExpenseContext = createContext({} as ExpenseContextData)
@@ -31,16 +31,27 @@ function GetExpenseDefault(): EntityExpense {
 function ExpenseProvider({ children } : ExpenseProviderProps){
     const [expense, setExpense] = useState<EntityExpense>(GetExpenseDefault()) 
     
-    async function deletar(id: string) {    
+    async function deletar(id: string) : Promise<boolean> {    
         const docRef = doc(db, "expenses", id)   
 
-        await deleteDoc(docRef)  
-        
-        if (expense?.id === id) {
-            setExpense(GetExpenseDefault())
-        }
+        return await deleteDoc(docRef)
+                        .then(() => {
+                            if (expense?.id === id) {
+                                setExpense(GetExpenseDefault())
+                            }
+                    
+                            toast.success('Deletado com sucesso!')  
 
-        toast.success('Deletado com sucesso!')           
+                            return true
+                        }).catch((error) => {
+                            toast.error('Não foi possível deletar o registro. Erro descrito no log!')
+                            console.log('Erro: ', error)
+
+                            Promise.reject(error)
+                            return false
+                        })
+        
+                
     }        
 
     async function update() : Promise<boolean> {

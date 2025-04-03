@@ -1,3 +1,11 @@
+.colorDeletar {
+    color: rgb(206, 17, 17)
+}
+
+.colorEdit {
+    color: #4CAF50
+}
+
 table {
     border-collapse: separate;
     border-spacing: 0 14px;

@@ -1,0 +1,20 @@
+.containerFields {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.inputTamanho {
+    width: 100%;
+}
+
+.button {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.colorBlack {
+    color: black
+}
