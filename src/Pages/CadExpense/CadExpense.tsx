@@ -17,12 +17,12 @@ export default function CadExpense() {
         tabs={
           [
             {
-              id: '1',
+              id: TabsCadastroExpenseEnum.Cadastro,
               description: 'Cadastro',
               children: <FormCadExpense />  
             },
             {
-              id: '2',
+              id: TabsCadastroExpenseEnum.Listagem,
               description: 'Listagem',
               children: <ListExpense setAba={setAba}/> 
             }

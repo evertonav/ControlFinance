@@ -1,26 +1,39 @@
-import { ChangeEvent, FormEvent } from "react";
 import style from './Login.module.css'
 import InputCommon from "../../Components/Input/InputCommon";
 import UseLogin from "./UseLogin";
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod"
 
+const schema = z.object(
+    {
+        email: z.string().email('Insira um email válido').nonempty("O campo e-mail é obrigatório."),
+        password: z.string().nonempty("O campo senha é obrigatório.")
+    }
+)
+
+type FormData = z.infer<typeof schema>
 
 export default function Login() {
-    const { 
-        ExecuteLogin,
-        email,
-        setEmail,
-        password,
-        setPassword
-     } = UseLogin()    
-    
-    function handlerOnSubmitForm(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<FormData>(
+        {
+            resolver: zodResolver(schema),
+            mode: "onChange"
+        }
+    )
 
-        ExecuteLogin()
+    const { ExecuteLogin } = UseLogin()    
+    
+    function onSubmit(data: FormData) {          
+        ExecuteLogin(data.email, data.password)
     }
 
     return (
-    <form className={style.container} onSubmit={handlerOnSubmitForm}>
+    <form className={style.container} onSubmit={handleSubmit(onSubmit)}>
 
         <h1 className={style.logo}>Control <span className={style.logoRest}>Finance</span></h1>
 
@@ -29,21 +42,23 @@ export default function Login() {
                 classNameContainer={style.width50Percent} 
                 classNameContainerInput={style.widthFull} 
                 className={style.colorWhite}
+                error={errors.email?.message}
+                register={register}
+                name="email"
                 type="email"
                 title="E-mail" 
-                placeholder="Digite o seu email..."
-                value={email} 
-                onChange={(e: ChangeEvent<HTMLInputElement> ) => setEmail(e.target.value)}/>
+                placeholder="Digite o seu email..."/>
 
             <InputCommon 
                 classNameContainer={style.width50Percent} 
                 classNameContainerInput={style.widthFull} 
                 className={style.colorWhite}
-                placeholder="Digite a sua senha..." 
+                placeholder="Digite a sua senha..."
+                name="password" 
+                error={errors.password?.message}
+                register={register}
                 type="password"
-                title="Senha" 
-                value={password} 
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}/>
+                title="Senha" />
 
             <button
                 className={`${style.buttonAcessar} ${style.width50Percent}`} 
