@@ -4,6 +4,7 @@ import UseLogin from "./UseLogin";
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
+import Logo from '../../Components/Logo/Logo';
 
 const schema = z.object(
     {
@@ -35,7 +36,7 @@ export default function Login() {
     return (
     <form className={style.container} onSubmit={handleSubmit(onSubmit)}>
 
-        <h1 className={style.logo}>Control <span className={style.logoRest}>Finance</span></h1>
+        <Logo/>
 
         <div className={style.containerFields}>
             <InputCommon 

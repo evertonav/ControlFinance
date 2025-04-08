@@ -8,16 +8,6 @@
   'opsz' 24
 }
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  width: 100vw;
-  height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 button {
     height: 36px;
     background-color: #2563eb; /* Cor azul escura (bg-blue-600 do Tailwind) */

@@ -10,7 +10,7 @@ export default function CadExpense() {
   const [aba, setAba] = useState<string>(TabsCadastroExpenseEnum.Cadastro)
 
   return (  
-    <Container>
+    <Container>      
       <TabCommon
         setValue={setAba}        
         value={aba}

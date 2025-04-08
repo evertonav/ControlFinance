@@ -1,0 +1,11 @@
+.logo {
+    margin-top: 11px;
+    color: white;
+    margin-bottom: 28px;
+}
+
+.logoRest {
+    background: linear-gradient(to right, #fbbf24, #fb923c);
+    -webkit-background-clip: text;
+    color: transparent;
+}
