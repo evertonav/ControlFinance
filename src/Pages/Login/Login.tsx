@@ -34,13 +34,15 @@ export default function Login() {
     }
 
     return (
-    <form className={style.container} onSubmit={handleSubmit(onSubmit)}>
+    <form className={`${style.container}`} onSubmit={handleSubmit(onSubmit)}>
 
-        <Logo/>
+        <Logo 
+            classNameControl={`${style.logo} ${style.logoMaxWidtGreat350}`} 
+            classNameFinance={style.logoRest}/>
 
-        <div className={style.containerFields}>
+        <div className={`${style.containerFields} ${style.minWidthMobile}`}>
             <InputCommon 
-                classNameContainer={style.width50Percent} 
+                classNameContainer={style.widthFull} 
                 classNameContainerInput={style.widthFull} 
                 className={style.colorWhite}
                 error={errors.email?.message}
@@ -51,7 +53,7 @@ export default function Login() {
                 placeholder="Digite o seu email..."/>
 
             <InputCommon 
-                classNameContainer={style.width50Percent} 
+                classNameContainer={style.widthFull} 
                 classNameContainerInput={style.widthFull} 
                 className={style.colorWhite}
                 placeholder="Digite a sua senha..."
@@ -62,7 +64,7 @@ export default function Login() {
                 title="Senha" />
 
             <button
-                className={`${style.buttonAcessar} ${style.width50Percent}`} 
+                className={`${style.buttonAcessar} ${style.widthFull}`} 
                 type="submit">
                 
                 Acessar
