@@ -4,6 +4,6 @@ export interface EntityExpense {
     bePaid: boolean
     date: number
     description: string
-    value: number
+    value: string
     user?: string
 }

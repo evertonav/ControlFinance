@@ -24,7 +24,7 @@ function GetExpenseDefault(): EntityExpense {
         bePaid: false,
         date: new Date().valueOf(),
         description: '',
-        value: 0
+        value: ''
     }
 }
 

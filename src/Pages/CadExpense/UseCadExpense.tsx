@@ -62,7 +62,7 @@ export default function UseCadExpense() {
         
             const newExpense = { ...expense }
         
-            newExpense.value = value
+            newExpense.value = value.toString()
             return newExpense                  
         })
     }

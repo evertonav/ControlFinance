@@ -47,7 +47,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
                
                 {
                     listExpense.map((item, i) => {
-                        totalExpense = totalExpense + item.value
+                        totalExpense = totalExpense + Number(item.value)
 
                         return (
                             <tr key={i} className={style.tr}>
