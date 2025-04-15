@@ -1,6 +1,6 @@
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import style from './FormCadExpense.module.css'
-import {  ChangeEvent, FormEvent } from 'react'
+import {  ChangeEvent } from 'react'
 import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -10,17 +10,13 @@ import CheckBoxCommon from '../../../Components/CheckBox/CheckBoxCommon';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { ConvertStringToNumber } from '../../../Utils/Date/ConvertNumber';
 
 const schema = z.object(
-    {
-        //date: z.number().gt(0, 'Preencha com uma data válida'),
+    {        
         description: z.string().nonempty("O campo deve ser preenchido."),
         value: z.string()
                 .regex(/^\d+$/, { message: "Somente números são permitidos" }), // Validação para garantir números                
-        bePaid: z.boolean()
-                 .refine(val => val === true || val === false, {
-                    message: "Este campo é obrigatório e deve ser verdadeiro ou falso.",
-                 }),
     }
 )
 
@@ -45,10 +41,9 @@ export default function FormCadExpense() {
             resolver: zodResolver(schema),
             mode: "onChange"
         }
-    )
-      
+    )      
     
-    const handleSubmitForm = async (data: FormData) => {                  
+    const handleSubmitForm = async () => {                  
         await Save()
     };  
 
@@ -59,9 +54,10 @@ export default function FormCadExpense() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                             
                     <DatePicker
-                        label="Data"
+                        label="Date"
                         value={dayjs(expense?.date ?? new Date().valueOf())}
                         onChange={(newValue) =>  setDate(newValue?.toDate())}
+                        format="DD/MM/YYYY"
                     />
                     
                 </LocalizationProvider>
@@ -86,13 +82,11 @@ export default function FormCadExpense() {
                     name="value"
                     title='Valor' 
                     value={expense?.value ?? ''} 
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(Number(e.target.value))}/>
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(ConvertStringToNumber(e.target.value))}/>
 
                 <CheckBoxCommon 
                     title='Pago' 
-                    name='bePaid'
-                    error={errors.bePaid?.message}
-                    register={register}              
+                    name='bePaid'                             
                     checked={expense?.bePaid ?? false}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setBePaid(e.target.checked)}/>
 

@@ -53,7 +53,7 @@ export default function UseCadExpense() {
           })
     }
 
-    function setValue(value: number) {
+    function setValue(value?: number) {
         setExpense((expense) => {
         
             if (!expense) {
@@ -62,7 +62,7 @@ export default function UseCadExpense() {
         
             const newExpense = { ...expense }
         
-            newExpense.value = value.toString()
+            newExpense.value = value?.toString() ?? ''
             return newExpense                  
         })
     }
