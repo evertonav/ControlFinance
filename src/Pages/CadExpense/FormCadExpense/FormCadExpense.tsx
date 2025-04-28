@@ -5,12 +5,12 @@ import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import UseCadExpense from '../UseCadExpense';
-import InputCommon from '../../../Components/Input/InputCommon';
 import CheckBoxCommon from '../../../Components/CheckBox/CheckBoxCommon';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { ConvertStringToNumber } from '../../../Utils/Date/ConvertNumber';
+import InputCommonMUI from '../../../Components/Input/InputCommonMUI';
 
 const schema = z.object(
     {        
@@ -57,32 +57,28 @@ export default function FormCadExpense() {
                         label="Date"
                         value={dayjs(expense?.date ?? new Date().valueOf())}
                         onChange={(newValue) =>  setDate(newValue?.toDate())}
+                        sx={{width: '100%'}}
                         format="DD/MM/YYYY"
                     />
                     
                 </LocalizationProvider>
 
-                <InputCommon 
-                    classNameContainer={style.inputTamanho}            
-                    classNameContainerInput={style.inputTamanho}
-                    className={style.colorBlack}
+                <InputCommonMUI 
+                    title='Descrição'
+                    name='description'
                     error={errors.description?.message}
-                    register={register}
-                    name="description"
-                    title='Descrição' 
-                    value={expense?.description} 
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}/>      
+                    register={register}          
+                    value={expense?.description}         
+                    handlerOnChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
+                />                                
                 
-                <InputCommon
-                    classNameContainer={style.inputTamanho}            
-                    classNameContainerInput={style.inputTamanho}
-                    className={style.colorBlack}
+                <InputCommonMUI                    
                     error={errors.value?.message}
                     register={register}
                     name="value"
                     title='Valor' 
-                    value={expense?.value ?? ''} 
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(ConvertStringToNumber(e.target.value))}/>
+                    value={expense?.value} 
+                    handlerOnChange={(e: ChangeEvent<HTMLInputElement>) => setValue(ConvertStringToNumber(e.target.value))}/>
 
                 <CheckBoxCommon 
                     title='Pago' 

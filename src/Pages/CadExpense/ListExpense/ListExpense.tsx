@@ -58,7 +58,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
                             <td key={i + 6} className={style.tdLabel} data-label=''>
                                 <ShowIcon 
                                     nameIcon="edit_square"
-                                    className={style.colorEdit} 
+                                    className={`${style.colorEdit} ${style.mousePointer}`} 
                                     onClick={() => {
                                         setExpense(item)       
                                         setAba(TabsCadastroExpenseEnum.Cadastro)                                 
@@ -67,7 +67,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
                             <td key={i + 7} className={style.tdLabel} data-label=''>
                                 <ShowIcon 
                                     nameIcon="delete"
-                                    className={style.colorDeletar}
+                                    className={`${style.colorDeletar} ${style.mousePointer}`}
                                     onClick={() => {handlerOnClickDeleteExpense(item.id ?? '')}}/>
                                   
                             </td>                                    

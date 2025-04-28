@@ -6,6 +6,10 @@
     color: #4CAF50
 }
 
+.mousePointer {
+    cursor: pointer;
+}
+
 table {
     border-collapse: separate;
     border-spacing: 0 14px;
