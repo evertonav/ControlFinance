@@ -28,6 +28,7 @@ export async function GetExpenses(
                 user: doc.data().user
             }
         )
-      });        
+      });     
+         
     return expenses   
 }

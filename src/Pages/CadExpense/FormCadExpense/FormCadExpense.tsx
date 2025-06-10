@@ -43,6 +43,18 @@ export default function FormCadExpense() {
         }
     )      
     
+    function handleOnChangeValue(e: ChangeEvent<HTMLInputElement>) {
+        if(e.target.value.length < 6) {
+            setValue(ConvertStringToNumber(e.target.value))
+        }        
+    }
+
+    function handleOnChangeDescription(e: ChangeEvent<HTMLInputElement>) {
+        if(e.target.value.length < 60) {
+            setDescription(e.target.value)
+        }       
+    }
+
     const handleSubmitForm = async () => {                  
         await Save()
     };  
@@ -69,7 +81,7 @@ export default function FormCadExpense() {
                     error={errors.description?.message}
                     register={register}          
                     value={expense?.description}         
-                    handlerOnChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
+                    handlerOnChange={handleOnChangeDescription}
                 />                                
                 
                 <InputCommonMUI                    
@@ -78,7 +90,7 @@ export default function FormCadExpense() {
                     name="value"
                     title='Valor' 
                     value={expense?.value} 
-                    handlerOnChange={(e: ChangeEvent<HTMLInputElement>) => setValue(ConvertStringToNumber(e.target.value))}/>
+                    handlerOnChange={handleOnChangeValue}/>
 
                 <CheckBoxCommon 
                     title='Pago' 

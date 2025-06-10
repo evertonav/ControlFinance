@@ -1,0 +1,11 @@
+.titleChart {
+    color: #4B4B52;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.removeMarginTopBottom {
+    /*margin-top: 15px !important;
+    margin-bottom: 15px !important;*/
+}
