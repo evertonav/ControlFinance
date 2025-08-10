@@ -19,7 +19,8 @@ export default function Graphic({description, values} : GraphicProps) {
           series={[
             {
               data: values,
-              arcLabel: 'value', // Exibe o valor de cada fatia  
+             // arcLabel: 'value', // Exibe o valor de cada fatia  
+              
             },
           ]}
           width={200}

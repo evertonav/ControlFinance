@@ -2,34 +2,25 @@ import style from './Login.module.css'
 import InputCommon from "../../Components/Input/InputCommon";
 import UseLogin from "./UseLogin";
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import Logo from '../../Components/Logo/Logo';
-
-const schema = z.object(
-    {
-        email: z.string().email('Insira um email válido').nonempty("O campo e-mail é obrigatório."),
-        password: z.string().nonempty("O campo senha é obrigatório.")
-    }
-)
-
-type FormData = z.infer<typeof schema>
+import { FormDataLogin, schemaLogin } from './schemas/SchemasLogin';
 
 export default function Login() {
     const {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm<FormData>(
+    } = useForm<FormDataLogin>(
         {
-            resolver: zodResolver(schema),
+            resolver: zodResolver(schemaLogin),
             mode: "onChange"
         }
     )
 
     const { ExecuteLogin } = UseLogin()    
     
-    function onSubmit(data: FormData) {          
+    function onSubmit(data: FormDataLogin) {          
         ExecuteLogin(data.email, data.password)
     }
 

@@ -11,26 +11,25 @@ export default function UseGraphicGastosXDevendo() {
 
     useEffect(() => {  
         const fetchData = async () => {
-          let valueChartTotalExpenses: number = await TotalExpenses(
+          const valueChartTotalExpenses: number = await TotalExpenses(
               GetFirstDayMonthNow(), 
               GetLastDayMonthNow(),
               GetUserLogado())
-    
-          console.log('valueChartTotalExpenses: ', valueChartTotalExpenses)
-          let valueChartRendaVsTotal: number = GetRenda() - valueChartTotalExpenses
+              
+          const valueChartRendaVsTotal: number = GetRenda() - valueChartTotalExpenses
     
           const listValuesChart: Array<ValueChart> = []
           listValuesChart.push(
             {
               id: 0,
-              value: valueChartTotalExpenses,
-              label: 'Gastos',
+              value: 100,
+              label: 'Gastos ',
               color: valueChartRendaVsTotal < 0 ? ColorsChartEnum.RED : ColorsChartEnum.GREEN
             },
             {
               id: 1,
-              value: valueChartRendaVsTotal >= 0 ? valueChartRendaVsTotal : valueChartRendaVsTotal * -1,
-              label: valueChartRendaVsTotal < 0 ? 'Devendo' : 'Sobrando' ,
+              value: 100,
+              label: valueChartRendaVsTotal < 0 ? 'Devendo' : 'Sobrando' + ' 0',
               color: ColorsChartEnum.YELLOW
             }
           )

@@ -6,21 +6,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import UseCadExpense from '../UseCadExpense';
 import CheckBoxCommon from '../../../Components/CheckBox/CheckBoxCommon';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { ConvertStringToNumber } from '../../../Utils/Date/ConvertNumber';
 import InputCommonMUI from '../../../Components/Input/InputCommonMUI';
-
-const schema = z.object(
-    {        
-        description: z.string().nonempty("O campo deve ser preenchido."),
-        value: z.string()
-                .regex(/^\d+$/, { message: "Somente números são permitidos" }), // Validação para garantir números                
-    }
-)
-
-type FormData = z.infer<typeof schema>
+import { FormDataCadExpense, schemaCadExpense } from './SchemasValidation';
 
 export default function FormCadExpense() {
     const {
@@ -36,26 +26,22 @@ export default function FormCadExpense() {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm<FormData>(
+    } = useForm<FormDataCadExpense>(
         {
-            resolver: zodResolver(schema),
+            resolver: zodResolver(schemaCadExpense),
             mode: "onChange"
         }
     )      
     
     function handleOnChangeValue(e: ChangeEvent<HTMLInputElement>) {
-        if(e.target.value.length < 6) {
-            setValue(ConvertStringToNumber(e.target.value))
-        }        
+        setValue(ConvertStringToNumber(e.target.value))                
     }
 
-    function handleOnChangeDescription(e: ChangeEvent<HTMLInputElement>) {
-        if(e.target.value.length < 60) {
-            setDescription(e.target.value)
-        }       
+    function handleOnChangeDescription(e: ChangeEvent<HTMLInputElement>) {        
+        setDescription(e.target.value)        
     }
 
-    const handleSubmitForm = async () => {                  
+    const handleSubmitForm = async () => {             
         await Save()
     };  
 
@@ -69,7 +55,7 @@ export default function FormCadExpense() {
                         label="Date"
                         value={dayjs(expense?.date ?? new Date().valueOf())}
                         onChange={(newValue) =>  setDate(newValue?.toDate())}
-                        sx={{width: '100%'}}
+                        sx={{width: '100%'}}                        
                         format="DD/MM/YYYY"
                     />
                     

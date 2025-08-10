@@ -8,20 +8,20 @@ import Main from '../Pages/Main/Main'
 const router = createBrowserRouter(
   [
     {
-      path: '/',
+      path: '/login',
       element: <Login />
     },
     { 
       element: <Layout/>,
       children: [
         {
-          path: '/cadExpense',
-          element: <Private><CadExpense/></Private> 
+          path: '/',
+          element: <Private><Main/></Private> 
         },
         {
-          path: '/teste',
-          element: <Main/>
-        }
+          path: '/cadExpense',
+          element: <Private><CadExpense/></Private> 
+        }        
       ]    
       
     }

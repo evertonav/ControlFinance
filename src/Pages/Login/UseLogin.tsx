@@ -10,7 +10,7 @@ export default function UseLogin() {
         Logar(email, password)
         .then(() => {
             toast.success('Logado com sucesso!')
-            navegar('/cadExpense', { replace: true }) 
+            navegar('/', { replace: true }) 
         }).catch((error) => {
             toast.error('Não foi possível fazer login. Verifique o log.')
             console.error('Error: ', error)
