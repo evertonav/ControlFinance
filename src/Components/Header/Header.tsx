@@ -13,7 +13,7 @@ export default function Header() {
                 <MenuHamburguer 
                     menuItems={[
                         {children: 'Home', onClick: () => navigate('/')},
-                        {children: 'Cadastro Despesas', onClick: () => navigate('cadExpense')},                       
+                        {children: 'Cadastro Despesas', onClick: () => navigate('cad-expense')},                       
                     ]} />
 
                 <Logo classNameControl={style.logo}/>

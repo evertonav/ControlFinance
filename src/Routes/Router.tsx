@@ -19,7 +19,7 @@ const router = createBrowserRouter(
           element: <Private><Main/></Private> 
         },
         {
-          path: '/cadExpense',
+          path: '/cad-expense',
           element: <Private><CadExpense/></Private> 
         }        
       ]    

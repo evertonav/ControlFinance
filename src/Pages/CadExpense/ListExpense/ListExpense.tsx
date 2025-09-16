@@ -15,8 +15,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
     let totalExpense = 0
 
     const {
-        listExpense, 
-        setListExpense,
+        listExpense,         
         UpdateList
     } = useListExpense()
 
@@ -26,8 +25,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
      } = UseCadExpense()    
 
     async function handlerOnClickDeleteExpense(id: string) {
-        await ExecuteDelete(id) && UpdateList()
-        setListExpense([])       
+        await ExecuteDelete(id) && UpdateList()        
     }    
 
     return (
@@ -46,7 +44,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
             <tbody>
                
                 {
-                    listExpense.map((item, i) => {
+                    listExpense?.map((item, i) => {
                         totalExpense = totalExpense + Number(item.value)
 
                         return (
