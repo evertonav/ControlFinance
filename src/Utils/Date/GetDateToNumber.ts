@@ -1,6 +1,6 @@
 export function GetFirstDayMonthNow() : Date {
     const today = new Date();
-    console.log('First: ', today)
+        
     return new Date(today.getFullYear(), today.getMonth(), 1)
 }
 

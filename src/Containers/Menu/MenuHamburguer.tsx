@@ -1,53 +1,30 @@
-import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Menu, { MenuProps } from '@mui/material/Menu';
-import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
 import style from './MenuHamburguer.module.css'
 import ShowIcon from '../../Components/ShowIcon/ShowIcon';
 
 interface MenuHamburguerProps {
-  menu?: MenuProps
-  menuItems: Array<MenuItemProps>
+  button?: IconButtonProps
+  menu: MenuProps  
 }
 
-export default function MenuHamburguer({menu, menuItems}: MenuHamburguerProps) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+export default function MenuHamburguer({button, menu}: MenuHamburguerProps) { 
   return (
     <div>      
       <IconButton
-        size="large"
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        onClick={handleClick}
+        size={button?.size ? button.size : "large"}
+        edge={button?.edge ? button.edge : "start"}
+        color={button?.color ? button.color : "inherit"}
+        aria-label={button?.['aria-label'] ? button['aria-label'] : "menu"}
+        onClick={button?.onClick}
+        {...button}
       >
-        <ShowIcon nameIcon='menu' className={style.icon}/>
+        {button?.children ? button.children : <ShowIcon nameIcon='menu' className={style.icon}/>}        
       </IconButton>
-
-      <Menu
-        anchorEl={menu?.anchorEl ? menu.anchorEl : anchorEl}
-        open={menu?.open ? menu.open : open}
-        onClose={menu?.onClose ? menu.onClose : handleClose}
-      >
-        {menuItems.map((item, index) => {
-          const {children, ...rest} = item 
-
-          return (
-            <MenuItem key={index} {...rest}>
-              {children}
-            </MenuItem>)
-        })}
-      </Menu>
+      
+      <Menu {...menu}>
+        {menu.children}
+      </Menu>      
     </div>
   );
 }

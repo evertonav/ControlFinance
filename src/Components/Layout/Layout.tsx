@@ -1,17 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
-//import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ReactQueryProvider } from "../../Providers/ReactQueryProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-export default function Layout() {
+export default function Layout() {      
     return (
     <>
-        <ReactQueryProvider>
-            <Header/>
+        <Header/>
 
-            {/*<ReactQueryDevtools position="bottom" initialIsOpen={false}/>*/}
+        {import.meta.env.VITE_AMBIENTE === 'LOCAL' 
+            && (<ReactQueryDevtools position="bottom" initialIsOpen={false}/>)}
 
-            <Outlet/>    
-        </ReactQueryProvider>
+        <Outlet/>    
+       
     </>)
 }
