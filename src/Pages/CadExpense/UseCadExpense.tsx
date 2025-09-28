@@ -1,16 +1,49 @@
 import { useContext } from "react"
 import { ExpenseContext } from "../../Contexts/CRUDExpense"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../Utils/Date/GetDateToNumber"
+import { GetUserLogado } from "../../Services/Login/Logar"
 
 export default function UseCadExpense() {
-      const { 
+    const { 
         expense, 
         update, 
         setExpense, 
         add,
         deletar
-      } = useContext(ExpenseContext)
+    } = useContext(ExpenseContext)
 
-    async function Save() {
+    const queryClient = useQueryClient()
+
+    const expenseAddOrUpdateMutation = useMutation({
+      mutationFn: async () => { 
+        return SaveInterno() 
+      },
+
+      onSuccess: () => {
+               
+        queryClient.invalidateQueries({queryKey: ['listExpense',
+                                                  GetFirstDayMonthNow(), 
+                                                  GetLastDayMonthNow(), 
+                                                  GetUserLogado()]
+                                      })  
+      }  
+    })
+
+    const deleteExpenseMutation = useMutation({
+      mutationFn: async (data: { id: string }) => {
+        return deletar(data.id)
+      }, 
+      onSuccess: () => {
+        queryClient.invalidateQueries({queryKey: ['listExpense',
+                                                  GetFirstDayMonthNow(), 
+                                                  GetLastDayMonthNow(), 
+                                                  GetUserLogado()]
+                                       })  
+      }
+    })
+
+    async function SaveInterno() {
         if (expense?.id) {      
             await update()      
           } 
@@ -19,10 +52,12 @@ export default function UseCadExpense() {
           }
     }
 
-    async function ExecuteDelete(id: string) : Promise<boolean> {
-      return deletar(id)
-              .then(() => true) 
-              .catch(() => false);
+    function Save() {
+      expenseAddOrUpdateMutation.mutate()
+    }
+
+    function ExecuteDelete(id: string) {
+      deleteExpenseMutation.mutate({id})
     }
 
     function setDate(value?: Date) {

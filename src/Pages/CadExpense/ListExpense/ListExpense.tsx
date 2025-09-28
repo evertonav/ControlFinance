@@ -15,8 +15,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
     let totalExpense = 0
 
     const {
-        listExpense,         
-        UpdateList
+        listExpense,        
     } = useListExpense()
 
     const { 
@@ -24,8 +23,8 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
         setExpense
      } = UseCadExpense()    
 
-    async function handlerOnClickDeleteExpense(id: string) {
-        await ExecuteDelete(id) && UpdateList()        
+    function handlerOnClickDeleteExpense(id: string) {
+        ExecuteDelete(id)       
     }    
 
     return (

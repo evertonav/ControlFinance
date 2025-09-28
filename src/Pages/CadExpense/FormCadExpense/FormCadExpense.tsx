@@ -41,8 +41,8 @@ export default function FormCadExpense() {
         setDescription(e.target.value)        
     }
 
-    const handleSubmitForm = async () => {             
-        await Save()
+    const handleSubmitForm = () => {             
+        Save()
     };  
 
     return (
