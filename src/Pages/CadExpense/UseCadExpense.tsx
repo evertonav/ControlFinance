@@ -1,27 +1,30 @@
-import { useContext } from "react"
-import { ExpenseContext } from "../../Contexts/CRUDExpense"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../Utils/Date/GetDateToNumber"
 import { GetUserLogado } from "../../Services/Login/Logar"
+import { EntityExpense } from "../../Services/Expense/EntityExpense"
+import { useExpense } from "../../Hooks/useExpense"
 
 export default function UseCadExpense() {
     const { 
-        expense, 
-        update, 
-        setExpense, 
-        add,
-        deletar
-    } = useContext(ExpenseContext)
+      expense, 
+      update, 
+      setExpense, 
+      add,
+      deletar
+  } = useExpense()
 
     const queryClient = useQueryClient()
 
     const expenseAddOrUpdateMutation = useMutation({
-      mutationFn: async () => { 
-        return SaveInterno() 
+      mutationFn: async () => {         
+        if (expense?.id) {      
+          await update()      
+        } 
+        else {    
+          add()      
+        }
       },
-
-      onSuccess: () => {
-               
+      onSuccess: () => {               
         queryClient.invalidateQueries({queryKey: ['listExpense',
                                                   GetFirstDayMonthNow(), 
                                                   GetLastDayMonthNow(), 
@@ -43,16 +46,7 @@ export default function UseCadExpense() {
       }
     })
 
-    async function SaveInterno() {
-        if (expense?.id) {      
-            await update()      
-          } 
-          else {    
-            add()      
-          }
-    }
-
-    function Save() {
+    function Save() {      
       expenseAddOrUpdateMutation.mutate()
     }
 
@@ -61,59 +55,55 @@ export default function UseCadExpense() {
     }
 
     function setDate(value?: Date) {
-        setExpense((expense) => {
+      let expenseInternal: EntityExpense;
 
-            if (!expense) {
-              return expense
-            }
+      if (!expense) {
+        return
+      }
 
-            const newExpense = { ...expense }
+      expenseInternal = { ...expense }      
+      expenseInternal.date = value?.valueOf() ?? new Date().valueOf()
 
-            newExpense.date = value?.valueOf() ?? new Date().valueOf()
-            return newExpense                  
-          })
+      setExpense(expenseInternal)
     }
 
     function setDescription(value: string) {
-        setExpense((expense) => {
+      let expenseInternal: EntityExpense;
 
-            if (!expense) {
-              return expense
-            }
+      if (!expense) {
+        return
+      }
 
-            const newExpense = { ...expense }
-
-            newExpense.description = value
-            return newExpense                  
-          })
+      expenseInternal =  { ...expense }
+      expenseInternal.description = value
+      
+      setExpense(expenseInternal)
     }
 
     function setValue(value?: number) {
-        setExpense((expense) => {
-        
-            if (!expense) {
-                return expense
-            }
-        
-            const newExpense = { ...expense }
-        
-            newExpense.value = value?.toString() ?? ''
-            return newExpense                  
-        })
+      let expenseInternal: EntityExpense;
+
+      if (!expense) {
+        return
+      }
+
+      expenseInternal = { ...expense }
+      expenseInternal.value = value?.toString() ?? ''
+      
+      setExpense(expenseInternal)       
     }
 
     function setBePaid(value: boolean) {
-        setExpense((expense) => {
+      let expenseInternal: EntityExpense;
 
-            if (!expense) {
-              return expense
-            }
+      if (!expense) {
+        return
+      }
 
-            const newExpense = { ...expense }
+      expenseInternal = { ...expense }
+      expenseInternal.bePaid = value
 
-            newExpense.bePaid = value
-            return newExpense                  
-          })
+      setExpense(expenseInternal)
     }
 
     return {

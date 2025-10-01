@@ -1,25 +1,11 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react";
-import { EntityExpense } from "../Services/Expense/EntityExpense";
-import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../Services/FirebaseConnection";
-import toast from "react-hot-toast";
-import { GetUserLogado } from "../Services/Login/Logar";
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { EntityExpense } from "../Services/Expense/EntityExpense"
+import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore"
+import { db } from "../Services/FirebaseConnection"
+import toast from "react-hot-toast"
+import { GetUserLogado } from "../Services/Login/Logar"
 
-interface ExpenseProviderProps {
-    children: ReactNode
-}
-
-interface ExpenseContextData {
-    expense?: EntityExpense
-    setExpense: Dispatch<SetStateAction<EntityExpense>>
-    add: () => boolean
-    update: () => Promise<boolean>
-    deletar: (id: string) => Promise<boolean>
-}
-
-export const ExpenseContext = createContext({} as ExpenseContextData)
-
-function GetExpenseDefault(): EntityExpense {
+export function GetExpenseDefault(): EntityExpense {
     return {
         bePaid: false,
         date: new Date().valueOf(),
@@ -28,8 +14,27 @@ function GetExpenseDefault(): EntityExpense {
     }
 }
 
-function ExpenseProvider({ children } : ExpenseProviderProps){
-    const [expense, setExpense] = useState<EntityExpense>(GetExpenseDefault()) 
+export function useExpense() {
+    const queryClient = useQueryClient()
+    const queryKey = ['expenseCadastro']
+
+    const { data: expense } = useQuery({
+        queryKey: queryKey,
+        queryFn: async () => {
+            const expense = queryClient.getQueryData<EntityExpense>(queryKey)
+
+            if (!expense) {
+                return GetExpenseDefault()
+            }
+            
+            return expense
+        },           
+        staleTime: Infinity
+    })
+
+    function setExpense(expense: EntityExpense) {        
+        queryClient.setQueryData(queryKey, expense)
+    }
     
     async function deletar(id: string) : Promise<boolean> {    
         const docRef = doc(db, "expenses", id)   
@@ -55,7 +60,7 @@ function ExpenseProvider({ children } : ExpenseProviderProps){
     }        
 
     async function update() : Promise<boolean> {
-        try {
+        try {            
             if (expense === undefined) {
                 toast.error('Voce precisa preencher o "expense"')
                 return false
@@ -72,11 +77,11 @@ function ExpenseProvider({ children } : ExpenseProviderProps){
             }
 
             const userRef = doc(db, 'expenses', expense.id ?? '');                  
-        
+
             // Atualizar o documento
             await updateDoc(userRef, {
                 bePaid: expense.bePaid,
-                data: expense.date,
+                date: expense.date,
                 description: expense.description,
                 value: expense.value,            
                 user: GetUserLogado()    
@@ -87,8 +92,7 @@ function ExpenseProvider({ children } : ExpenseProviderProps){
                         
           } catch (error) {
             toast.success('erro' + error)
-            console.error('Erro ao atualizar o documento: ', error);
-            
+            console.error('Erro ao atualizar o documento: ', error);        
           }
 
           return true
@@ -127,21 +131,11 @@ function ExpenseProvider({ children } : ExpenseProviderProps){
         return true
     }    
 
-    return (
-        <ExpenseContext.Provider 
-            value={
-                {
-                    expense: expense, 
-                    setExpense: setExpense, 
-                    add: add,
-                    update: update,
-                    deletar: deletar
-                }
-            }>
-
-            {children}
-        </ExpenseContext.Provider>
-    )
+    return {
+        expense, 
+        setExpense, 
+        add,
+        update,
+        deletar
+    }
 }
-
-export default ExpenseProvider
