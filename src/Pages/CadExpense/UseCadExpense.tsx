@@ -1,8 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../Utils/Date/GetDateToNumber"
 import { GetUserLogado } from "../../Services/Login/Logar"
 import { EntityExpense } from "../../Services/Expense/EntityExpense"
 import { useExpense } from "../../Hooks/useExpense"
+import { setExpenseForField } from "./Functions/SetExpenserForField"
 
 export default function UseCadExpense() {
     const { 
@@ -15,43 +16,25 @@ export default function UseCadExpense() {
 
     const queryClient = useQueryClient()
 
-    const expenseAddOrUpdateMutation = useMutation({
-      mutationFn: async () => {         
-        if (expense?.id) {      
-          await update()      
-        } 
-        else {    
-          add()      
-        }
-      },
-      onSuccess: () => {               
-        queryClient.invalidateQueries({queryKey: ['listExpense',
-                                                  GetFirstDayMonthNow(), 
-                                                  GetLastDayMonthNow(), 
-                                                  GetUserLogado()]
-                                      })  
-      }  
-    })
-
-    const deleteExpenseMutation = useMutation({
-      mutationFn: async (data: { id: string }) => {
-        return deletar(data.id)
-      }, 
-      onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ['listExpense',
-                                                  GetFirstDayMonthNow(), 
-                                                  GetLastDayMonthNow(), 
-                                                  GetUserLogado()]
-                                       })  
-      }
-    })
+    if (deletar.isSuccess || add.isSuccess || update.isSuccess) {
+      queryClient.invalidateQueries({queryKey: ['listExpense',
+        GetFirstDayMonthNow(), 
+        GetLastDayMonthNow(), 
+        GetUserLogado()]
+      })  
+    }      
 
     function Save() {      
-      expenseAddOrUpdateMutation.mutate()
+      if (expense?.id) {      
+        update.mutate({expense: expense, user: GetUserLogado()})      
+      } 
+      else {    
+        add.mutate({expense: expense, user: GetUserLogado()})
+      }
     }
 
     function ExecuteDelete(id: string) {
-      deleteExpenseMutation.mutate({id})
+      deletar.mutate( {id})
     }
 
     function setDate(value?: Date) {
@@ -68,29 +51,11 @@ export default function UseCadExpense() {
     }
 
     function setDescription(value: string) {
-      let expenseInternal: EntityExpense;
-
-      if (!expense) {
-        return
-      }
-
-      expenseInternal =  { ...expense }
-      expenseInternal.description = value
-      
-      setExpense(expenseInternal)
+      setExpenseForField(setExpense, "description", value, expense);
     }
 
     function setValue(value?: number) {
-      let expenseInternal: EntityExpense;
-
-      if (!expense) {
-        return
-      }
-
-      expenseInternal = { ...expense }
-      expenseInternal.value = value?.toString() ?? ''
-      
-      setExpense(expenseInternal)       
+      setExpenseForField(setExpense, "value", value?.toString() ?? '', expense)
     }
 
     function setBePaid(value: boolean) {
