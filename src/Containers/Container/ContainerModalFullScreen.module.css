@@ -1,0 +1,14 @@
+.container {    
+    position: fixed;   /* fica fixo na tela, não some ao rolar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5); /* semi-transparente */
+    z-index: 1200; /* fica acima de tudo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+}

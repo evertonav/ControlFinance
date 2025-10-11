@@ -5,6 +5,8 @@ import { router } from './Routes/Router.tsx'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { ReactQueryProvider } from './Providers/ReactQueryProvider.tsx'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -12,8 +14,11 @@ createRoot(document.getElementById('root')!).render(
         position="top-center"
         reverseOrder={false}
       />
-      <ReactQueryProvider>        
-        <RouterProvider router={router} />        
+      
+      <ReactQueryProvider> 
+        <LocalizationProvider dateAdapter={AdapterDayjs}> 
+          <RouterProvider router={router} />        
+        </LocalizationProvider>      
       </ReactQueryProvider>
     
   </StrictMode>,

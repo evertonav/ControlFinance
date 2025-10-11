@@ -1,0 +1,37 @@
+.containerFilter {
+    position: relative;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 70%;
+    height: 70%;
+    background-color: white;
+    border-radius: 8px;   
+}
+
+.containerCabecalhoFilter {
+    width: 100%;
+    /*background: linear-gradient(to right, #fbbf24, #fb923c);*/
+    background-color: rgb(34, 33, 33);
+    border-radius: 8px;
+    align-items: center;
+    text-align: center;       
+}
+
+.containerFields {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 10px;    
+}
+
+.containerFooterFilter {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 10%;
+    width: 100%;
+}

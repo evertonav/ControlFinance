@@ -1,5 +1,5 @@
 import { PieChart } from "@mui/x-charts";
-import Container from "../../Components/Container/Container";
+import Container from "../Container/Container";
 import { ValueChart } from "./@type/ValueChart";
 import style from './Graphic.module.css'
 

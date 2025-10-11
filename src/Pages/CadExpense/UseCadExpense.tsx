@@ -17,10 +17,7 @@ export default function UseCadExpense() {
     const queryClient = useQueryClient()
 
     if (deletar.isSuccess || add.isSuccess || update.isSuccess) {
-      queryClient.invalidateQueries({queryKey: ['listExpense',
-        GetFirstDayMonthNow(), 
-        GetLastDayMonthNow(), 
-        GetUserLogado()]
+      queryClient.invalidateQueries({queryKey: ['listExpense', GetUserLogado()]
       })  
     }      
 

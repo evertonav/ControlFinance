@@ -10,7 +10,7 @@ export async function GetExpenses(
     const expensesRef = collection(db, "expenses")
     const queryRef = query(expensesRef,
                            where('date', '>=', dateFirst.valueOf()),
-                           where('date', '<', dateLast.valueOf()),
+                           where('date', '<=', dateLast.valueOf()),
                            where('user', '==', user))
     
     const querySnapshot = await getDocs(queryRef);
