@@ -5,7 +5,6 @@ import UseCadExpense from "../UseCadExpense"
 import useListExpense from "./UseListExpense"
 import { Dispatch, SetStateAction } from 'react'
 import { TabsCadastroExpenseEnum } from '../Enum/TabsCadastroExpense'
-import { EhDeviceMobile } from '../../../Functions/GetDeviceUsed'
 import { FilterExpense } from './FilterExpense'
 
 interface ListExpenseProps {
@@ -32,7 +31,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
     return (
         <div>     
             {
-                EhDeviceMobile() && (
+                (
                     <FilterExpense onAply={(dateInicial, dateFinish) => {              
                         UpdateList(dateInicial, dateFinish)
                     }}/>

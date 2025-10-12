@@ -1,5 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../Utils/Date/GetDateToNumber"
 import { GetUserLogado } from "../../Services/Login/Logar"
 import { EntityExpense } from "../../Services/Expense/EntityExpense"
 import { useExpense } from "../../Hooks/useExpense"
