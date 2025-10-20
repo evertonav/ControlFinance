@@ -1,11 +1,19 @@
-export function GetFirstDayMonthNow() : Date {
-    const today = new Date();
+export function GetFirstDayMonthNow(dateReference?: Date) : Date {
+    let dateReferenceInternal = new Date()
+
+    if (dateReference) {
+        dateReferenceInternal = dateReference
+    }    
         
-    return new Date(today.getFullYear(), today.getMonth(), 1)
+    return new Date(dateReferenceInternal.getFullYear(), dateReferenceInternal.getMonth(), 1)
 }
 
-export function GetLastDayMonthNow() : Date {
-    const today = new Date();
+export function GetLastDayMonthNow(dateReference?: Date) : Date {
+    let dateReferenceInternal = new Date();
 
-    return new Date(today.getFullYear(), today.getMonth() + 1, 1)
+    if (dateReference) {
+        dateReferenceInternal = dateReference
+    }    
+
+    return new Date(dateReferenceInternal.getFullYear(), dateReferenceInternal.getMonth() + 1, 1)
 }

@@ -3,6 +3,8 @@ import { GetUserLogado } from "../../Services/Login/Logar"
 import { EntityExpense } from "../../Services/Expense/EntityExpense"
 import { useExpense } from "../../Hooks/useExpense"
 import { setExpenseForField } from "./Functions/SetExpenserForField"
+import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../Utils/Date/GetDateToNumber"
+import { GetListExpenseKey } from "../../QueryKey/ExpenseKey"
 
 export default function UseCadExpense() {
     const { 
@@ -10,14 +12,14 @@ export default function UseCadExpense() {
       update, 
       setExpense, 
       add,
-      deletar
+      deletar,
+      copy      
   } = useExpense()
 
     const queryClient = useQueryClient()
 
-    if (deletar.isSuccess || add.isSuccess || update.isSuccess) {
-      queryClient.invalidateQueries({queryKey: ['listExpense', GetUserLogado()]
-      })  
+    if (deletar.isSuccess || add.isSuccess || update.isSuccess || copy.isSuccess) {
+      queryClient.invalidateQueries({queryKey: GetListExpenseKey()})  
     }      
 
     function Save() {      
@@ -31,6 +33,14 @@ export default function UseCadExpense() {
 
     function ExecuteDelete(id: string) {
       deletar.mutate( {id})
+    }
+
+    function Copy(dateFrom: Date, dateTo: Date) {      
+      copy.mutate({
+        dateFirst: GetFirstDayMonthNow(dateFrom),
+        dateLast: GetLastDayMonthNow(dateFrom),
+        dateToCopy: dateTo
+      })
     }
 
     function setDate(value?: Date) {
@@ -74,6 +84,7 @@ export default function UseCadExpense() {
         setDescription,
         setBePaid,
         expense,    
+        Copy,
         ExecuteDelete,
         setExpense,   
 

@@ -1,7 +1,7 @@
 import { HTMLAttributes } from "react";
 import { IconsType } from "./IconsEnum";
 
-interface ShowIconProps extends HTMLAttributes<HTMLSpanElement>{
+export interface ShowIconProps extends HTMLAttributes<HTMLSpanElement>{
     nameIcon: IconsType
 }
 

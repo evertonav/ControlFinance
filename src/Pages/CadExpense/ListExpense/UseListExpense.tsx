@@ -3,17 +3,17 @@ import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../../Utils/Date/Get
 import { GetUserLogado } from "../../../Services/Login/Logar";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { GetListExpenseKey } from "../../../QueryKey/ExpenseKey";
 
 export default function useListExpense() {
 
     const firstDayMonthNow = GetFirstDayMonthNow()
     const lastDayMonthNow = GetLastDayMonthNow()
     const userLogado = GetUserLogado()
-    const queryClient = useQueryClient()
-    const queryKeyListExpense = ['listExpense', userLogado]
+    const queryClient = useQueryClient()    
 
     const { data: listExpense, isError } = useQuery({
-        queryKey: queryKeyListExpense,
+        queryKey: GetListExpenseKey(),
         queryFn: async () => {                         
             return GetExpenses(firstDayMonthNow, lastDayMonthNow, userLogado)   
         },                                                  
@@ -21,7 +21,7 @@ export default function useListExpense() {
 
     function UpdateList(dayInitial?: Date, dayFinish?: Date) {          
         queryClient.fetchQuery({
-            queryKey: queryKeyListExpense,
+            queryKey: GetListExpenseKey(),
             queryFn: async () => GetExpenses(dayInitial ?? firstDayMonthNow, 
                                              dayFinish ?? lastDayMonthNow, 
                                              userLogado),

@@ -1,10 +1,4 @@
-.containerCabecalho {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;     
-}
-
-.buttonSearch {
+.button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,9 +6,5 @@
     background-color: white;
     border: 1px solid #ccc; /* cinza */
     border-radius: 8px;     /* arredondado */
-    cursor: pointer;    
-}
-
-.colorIconSearch {
-    color: #535bf2;
+    cursor: pointer;   
 }

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import MenuHamburguer from '../../Containers/Menu/MenuHamburguer'
 import { auth } from '../../Services/FirebaseConnection'
 import Logo from '../Logo/Logo'
@@ -8,8 +8,7 @@ import { useState } from 'react'
 
 export default function Header() {
     const [open, setOpen] = useState(false)
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const navigate = useNavigate()
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);    
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -19,8 +18,7 @@ export default function Header() {
     const handleClose = () => {
         setAnchorEl(null);
         setOpen(false)
-    };
-    
+    };    
 
     return (
         <div className={style.container}>
@@ -34,17 +32,19 @@ export default function Header() {
                         children: 
                         [
                             <MenuItem key={0} onClick={() => {
-                              navigate('/');
                               setOpen(false);
                             }}>
-                              Home
+                              <Link className={style.linkPerson} to={"/"}>
+                                Home
+                              </Link>
                             </MenuItem>,
                             
                             <MenuItem key={1} onClick={() => {
-                              navigate('cad-expense');
                               setOpen(false);
                             }}>
-                              Cadastro Despesas
+                              <Link className={style.linkPerson} to={"/cad-expense"}>
+                                Cadastro Despesas
+                              </Link>                              
                             </MenuItem>
                         ]}}/>                    
 

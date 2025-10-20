@@ -3,15 +3,25 @@ import { ConverterDataParaPadraoVisual } from "../../../Utils/Date/ConvertDate"
 import ShowIcon from "../../../Components/ShowIcon/ShowIcon"
 import UseCadExpense from "../UseCadExpense"
 import useListExpense from "./UseListExpense"
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { TabsCadastroExpenseEnum } from '../Enum/TabsCadastroExpense'
-import { FilterExpense } from './FilterExpense'
+import { FilterExpense } from './Actions/FilterExpense'
+import { CopyExpense } from './Actions/CopyExpense'
+import { ButtonArredondado } from '../../../Components/Button/ButtonArredondado'
+import { ShowIconBlue } from '../../../Components/ShowIcon/ShowIconBlue'
+import { ContainerModalFullScreen } from '../../../Containers/Container/ContainerModalFullScreen'
+import { GetFirstDayMonthNow, GetLastDayMonthNow } from '../../../Utils/Date/GetDateToNumber'
 
 interface ListExpenseProps {
     setAba: Dispatch<SetStateAction<string>>
 }
 
-export default function ListExpense({ setAba } : ListExpenseProps) {    
+export default function ListExpense({ setAba } : ListExpenseProps) {   
+    const [openCopy, setOpenCopy] = useState(false)
+    const [openFilterExpense, setOpenFilterExpense] = useState(false)
+    const [dateInitialFilter, setDateInitialFilter] = useState<Date>(GetFirstDayMonthNow())
+    const [dateFinishFilter, setDateFinishFilter] = useState<Date>(GetLastDayMonthNow())
+
     let totalExpense = 0
 
     const {
@@ -20,8 +30,9 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
     } = useListExpense()
 
     const { 
-        ExecuteDelete,
-        setExpense
+        ExecuteDelete,        
+        setExpense,
+        Copy
      } = UseCadExpense()    
 
     function handlerOnClickDeleteExpense(id: string) {
@@ -30,13 +41,46 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
     
     return (
         <div>     
-            {
-                (
-                    <FilterExpense onAply={(dateInicial, dateFinish) => {              
-                        UpdateList(dateInicial, dateFinish)
-                    }}/>
-                )
-            }               
+            
+            <div className={style.containerCabecalho}>    
+                <>
+                    <ButtonArredondado onClick={() => {
+                        setOpenCopy(true)
+                    }} >
+                        <ShowIconBlue nameIcon='move_group'/>
+                    </ButtonArredondado>
+                    
+                    <ContainerModalFullScreen open={openCopy}>
+                        <CopyExpense onAply={(dateFrom, dateTo) => {                            
+                            Copy(dateFrom, dateTo)
+                            setOpenCopy(false)
+                        }}
+                        onCancel={() => setOpenCopy(false)}/>
+                    </ContainerModalFullScreen>                    
+                </>
+                
+                <>
+                    <ButtonArredondado onClick={() => setOpenFilterExpense(true)}>
+                        <ShowIconBlue nameIcon='filter_alt' className={style.colorIconSearch}/>
+                    </ButtonArredondado>
+                    
+                    <ContainerModalFullScreen open={openFilterExpense}>
+                        <FilterExpense
+                        dateInitialFilter={dateInitialFilter}
+                        dateFinishFilter={dateFinishFilter}
+                        onAply={(dateInicial, dateFinish) => {              
+                            UpdateList(dateInicial, dateFinish)
+
+                            dateInicial && setDateInitialFilter(dateInicial)
+                            dateFinish && setDateFinishFilter(dateFinish)
+
+                            setOpenFilterExpense(false)
+                        }}
+                        onCancel={() => setOpenFilterExpense(false)}/>      
+                    </ContainerModalFullScreen>                    
+                </>                
+            </div>
+                                       
             <table>
                 <thead>
                     <tr>
