@@ -1,8 +1,8 @@
 import style from './ListExpense.module.css'
 import { ConverterDataParaPadraoVisual } from "../../../Utils/Date/ConvertDate"
 import ShowIcon from "../../../Components/ShowIcon/ShowIcon"
-import UseCadExpense from "../UseCadExpense"
-import useListExpense from "./UseListExpense"
+import UseCadExpense from "../CadExpenseHook"
+import useListExpense from "./ListExpenseHook"
 import { Dispatch, SetStateAction, useState } from 'react'
 import { TabsCadastroExpenseEnum } from '../Enum/TabsCadastroExpense'
 import { FilterExpense } from './Actions/FilterExpense'
@@ -11,6 +11,7 @@ import { ButtonArredondado } from '../../../Components/Button/ButtonArredondado'
 import { ShowIconBlue } from '../../../Components/ShowIcon/ShowIconBlue'
 import { ContainerModalFullScreen } from '../../../Containers/Container/ContainerModalFullScreen'
 import { GetFirstDayMonthNow, GetLastDayMonthNow } from '../../../Utils/Date/GetDateToNumber'
+import { EntityExpense } from '../../../Services/Expense/EntityExpense'
 
 interface ListExpenseProps {
     setAba: Dispatch<SetStateAction<string>>
@@ -96,7 +97,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
                 <tbody>
                 
                     {
-                        listExpense?.map((item, i) => {
+                        listExpense?.map((item: EntityExpense, i: number) => {
                             totalExpense = totalExpense + Number(item.value)
 
                             return (

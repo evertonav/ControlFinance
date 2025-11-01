@@ -1,10 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query"
 import { GetUserLogado } from "../../Services/Login/Logar"
 import { EntityExpense } from "../../Services/Expense/EntityExpense"
-import { useExpense } from "../../Hooks/useExpense"
 import { setExpenseForField } from "./Functions/SetExpenserForField"
 import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../Utils/Date/GetDateToNumber"
 import { GetListExpenseKey } from "../../QueryKey/ExpenseKey"
+import { useExpense } from "../../Hooks/ExpenseHook"
 
 export default function UseCadExpense() {
     const { 

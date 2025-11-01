@@ -1,6 +1,6 @@
 import style from './Login.module.css'
 import InputCommon from "../../Components/Input/InputCommon";
-import UseLogin from "./UseLogin";
+import UseLogin from "./LoginHook";
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import Logo from '../../Components/Logo/Logo';
