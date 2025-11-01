@@ -4,10 +4,12 @@ import TabCommon from '../../Components/Tab/TabCommon';
 import FormCadExpense from './FormCadExpense/FormCadExpense';
 import ListExpense from './ListExpense/ListExpense';
 import { TabsCadastroExpenseEnum } from './Enum/TabsCadastroExpense';
+import useListExpense from './ListExpense/ListExpenseHook';
 
 
 export default function CadExpense() {  
   const [aba, setAba] = useState<string>(TabsCadastroExpenseEnum.Cadastro)
+  const listExpenseHook = useListExpense()
 
   return (  
     <Container>      
@@ -19,12 +21,12 @@ export default function CadExpense() {
             {
               id: TabsCadastroExpenseEnum.Cadastro,
               description: 'Cadastro',
-              children: <FormCadExpense />  
+              children: <FormCadExpense onSuccess={() => listExpenseHook.UpdateList()}/>  
             },
             {
               id: TabsCadastroExpenseEnum.Listagem,
               description: 'Listagem',
-              children: <ListExpense setAba={setAba}/> 
+              children: <ListExpense setAba={setAba} listExpenseHook={listExpenseHook}/> 
             }
           ]
         }

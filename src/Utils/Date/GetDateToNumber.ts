@@ -15,5 +15,8 @@ export function GetLastDayMonthNow(dateReference?: Date) : Date {
         dateReferenceInternal = dateReference
     }    
 
-    return new Date(dateReferenceInternal.getFullYear(), dateReferenceInternal.getMonth() + 1, 1)
+    const date = new Date(dateReferenceInternal.getFullYear(), dateReferenceInternal.getMonth() + 1, 1)
+    date.setDate(date.getDate() - 1);
+
+    return date
 }

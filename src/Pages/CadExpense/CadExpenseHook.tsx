@@ -22,21 +22,21 @@ export default function UseCadExpense() {
       queryClient.invalidateQueries({queryKey: GetListExpenseKey()})  
     }      
 
-    function Save() {      
+    function Save() {        
       if (expense?.id) {      
-        update.mutate({expense: expense, user: GetUserLogado()})      
+        return update.mutateAsync({expense: expense, user: GetUserLogado()})      
       } 
       else {    
-        add.mutate({expense: expense, user: GetUserLogado()})
+        return add.mutateAsync({expense: expense, user: GetUserLogado()})
       }
     }
 
-    function ExecuteDelete(id: string) {
-      deletar.mutate( {id})
+    function ExecuteDeleteAsync(id: string) {
+      return deletar.mutateAsync({id})
     }
 
-    function Copy(dateFrom: Date, dateTo: Date) {      
-      copy.mutate({
+    function CopyAsync(dateFrom: Date, dateTo: Date) {      
+      return copy.mutateAsync({
         dateFirst: GetFirstDayMonthNow(dateFrom),
         dateLast: GetLastDayMonthNow(dateFrom),
         dateToCopy: dateTo
@@ -84,8 +84,8 @@ export default function UseCadExpense() {
         setDescription,
         setBePaid,
         expense,    
-        Copy,
-        ExecuteDelete,
+        CopyAsync,
+        ExecuteDeleteAsync,
         setExpense,   
 
     }

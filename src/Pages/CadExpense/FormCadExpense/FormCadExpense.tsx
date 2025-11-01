@@ -12,7 +12,11 @@ import { ConvertStringToNumber } from '../../../Utils/Date/ConvertNumber';
 import InputCommonMUI from '../../../Components/Input/InputCommonMUI';
 import { FormDataCadExpense, schemaCadExpense } from './SchemasValidation';
 
-export default function FormCadExpense() {
+interface FormCadExpenseProps {
+    onSuccess: () => void
+}
+
+export default function FormCadExpense({ onSuccess } : FormCadExpenseProps) {
     const {
         Save,
         expense,
@@ -42,7 +46,7 @@ export default function FormCadExpense() {
     }
 
     const handleSubmitForm = () => {             
-        Save()
+        Save().then(() => onSuccess())
     };  
 
     return (

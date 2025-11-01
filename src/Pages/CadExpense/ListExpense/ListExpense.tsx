@@ -2,7 +2,7 @@ import style from './ListExpense.module.css'
 import { ConverterDataParaPadraoVisual } from "../../../Utils/Date/ConvertDate"
 import ShowIcon from "../../../Components/ShowIcon/ShowIcon"
 import UseCadExpense from "../CadExpenseHook"
-import useListExpense from "./ListExpenseHook"
+import { useListExpenseReturn } from "./ListExpenseHook"
 import { Dispatch, SetStateAction, useState } from 'react'
 import { TabsCadastroExpenseEnum } from '../Enum/TabsCadastroExpense'
 import { FilterExpense } from './Actions/FilterExpense'
@@ -10,34 +10,36 @@ import { CopyExpense } from './Actions/CopyExpense'
 import { ButtonArredondado } from '../../../Components/Button/ButtonArredondado'
 import { ShowIconBlue } from '../../../Components/ShowIcon/ShowIconBlue'
 import { ContainerModalFullScreen } from '../../../Containers/Container/ContainerModalFullScreen'
-import { GetFirstDayMonthNow, GetLastDayMonthNow } from '../../../Utils/Date/GetDateToNumber'
 import { EntityExpense } from '../../../Services/Expense/EntityExpense'
 
 interface ListExpenseProps {
     setAba: Dispatch<SetStateAction<string>>
+    listExpenseHook: useListExpenseReturn
 }
 
-export default function ListExpense({ setAba } : ListExpenseProps) {   
+export default function ListExpense({ setAba, listExpenseHook } : ListExpenseProps) {   
     const [openCopy, setOpenCopy] = useState(false)
-    const [openFilterExpense, setOpenFilterExpense] = useState(false)
-    const [dateInitialFilter, setDateInitialFilter] = useState<Date>(GetFirstDayMonthNow())
-    const [dateFinishFilter, setDateFinishFilter] = useState<Date>(GetLastDayMonthNow())
+    const [openFilterExpense, setOpenFilterExpense] = useState(false)    
+
+    const {
+        dayInitial,
+        dayFinish,
+        setDayFinish,
+        setDayInitial,
+        listExpense,   
+        UpdateList          
+    } = listExpenseHook
+
+    const { 
+        ExecuteDeleteAsync,        
+        setExpense,
+        CopyAsync
+     } = UseCadExpense()    
 
     let totalExpense = 0
 
-    const {
-        listExpense,     
-        UpdateList   
-    } = useListExpense()
-
-    const { 
-        ExecuteDelete,        
-        setExpense,
-        Copy
-     } = UseCadExpense()    
-
     function handlerOnClickDeleteExpense(id: string) {
-        ExecuteDelete(id)       
+        ExecuteDeleteAsync(id).then(() => UpdateList())
     }        
     
     return (
@@ -53,7 +55,7 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
                     
                     <ContainerModalFullScreen open={openCopy}>
                         <CopyExpense onAply={(dateFrom, dateTo) => {                            
-                            Copy(dateFrom, dateTo)
+                            CopyAsync(dateFrom, dateTo).then(() => UpdateList())
                             setOpenCopy(false)
                         }}
                         onCancel={() => setOpenCopy(false)}/>
@@ -67,17 +69,15 @@ export default function ListExpense({ setAba } : ListExpenseProps) {
                     
                     <ContainerModalFullScreen open={openFilterExpense}>
                         <FilterExpense
-                        dateInitialFilter={dateInitialFilter}
-                        dateFinishFilter={dateFinishFilter}
-                        onAply={(dateInicial, dateFinish) => {              
-                            UpdateList(dateInicial, dateFinish)
+                            dateInitialFilter={dayInitial}
+                            dateFinishFilter={dayFinish}
+                            onAply={(dateInicial, dateFinish) => {                                             
+                                dateInicial && setDayInitial(dateInicial)
+                                dateFinish && setDayFinish(dateFinish)
 
-                            dateInicial && setDateInitialFilter(dateInicial)
-                            dateFinish && setDateFinishFilter(dateFinish)
-
-                            setOpenFilterExpense(false)
-                        }}
-                        onCancel={() => setOpenFilterExpense(false)}/>      
+                                setOpenFilterExpense(false)
+                            }}
+                            onCancel={() => setOpenFilterExpense(false)}/>      
                     </ContainerModalFullScreen>                    
                 </>                
             </div>

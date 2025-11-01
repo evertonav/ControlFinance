@@ -4,28 +4,42 @@ import { GetUserLogado } from "../../../Services/Login/Logar";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetListExpenseKey } from "../../../QueryKey/ExpenseKey";
+import { useState } from "react";
+import { EntityExpense } from "../../../Services/Expense/EntityExpense";
 
-export default function useListExpense() {
+export interface useListExpenseReturn 
+{
+    dayInitial: Date;
+    setDayInitial: (value: Date) => void;
+    dayFinish: Date;
+    setDayFinish: (value: Date) => void;
+    listExpense?: Array<EntityExpense>
+    UpdateList: (dayInitial?: Date, dayFinish?: Date) => void;
+}
 
-    const firstDayMonthNow = GetFirstDayMonthNow()
-    const lastDayMonthNow = GetLastDayMonthNow()
+export default function useListExpense() : useListExpenseReturn  {
+        
+    const [dayInitial, setDayInitial] = useState(GetFirstDayMonthNow())
+    const [dayFinish, setDayFinish] = useState(GetLastDayMonthNow())
     const userLogado = GetUserLogado()
-    const queryClient = useQueryClient()    
+    const queryClient = useQueryClient()   
+    
+    function GetParametersQuery(dayInitialParameter: Date, dayFinishParameter: Date) {
+        return {
+            queryKey: GetListExpenseKey(dayInitialParameter.valueOf(), dayFinishParameter.valueOf()),
+            queryFn: async () => {                         
+                return GetExpenses(dayInitialParameter, dayFinishParameter, userLogado)   
+            }
+        }                                                 
+    } 
 
-    const { data: listExpense, isError } = useQuery({
-        queryKey: GetListExpenseKey(),
-        queryFn: async () => {                         
-            return GetExpenses(firstDayMonthNow, lastDayMonthNow, userLogado)   
-        },                                                  
-    });
+    const { data: listExpense, isError } = useQuery(GetParametersQuery(dayInitial, dayFinish));
 
-    function UpdateList(dayInitial?: Date, dayFinish?: Date) {          
-        queryClient.fetchQuery({
-            queryKey: GetListExpenseKey(),
-            queryFn: async () => GetExpenses(dayInitial ?? firstDayMonthNow, 
-                                             dayFinish ?? lastDayMonthNow, 
-                                             userLogado),
-          });
+    function UpdateList(dayInitialUpdate?: Date, dayFinishUpdate?: Date) { 
+        const dayInitialInternal = dayInitialUpdate ?? dayInitial
+        const dayFinishInternal = dayFinishUpdate ?? dayFinish
+        
+        queryClient.fetchQuery(GetParametersQuery(dayInitialInternal, dayFinishInternal));
     }
 
     if (isError) {
@@ -33,6 +47,10 @@ export default function useListExpense() {
     }    
                       
     return {
+        dayInitial,
+        setDayInitial,
+        dayFinish,
+        setDayFinish,
         listExpense,        
         UpdateList
     }
