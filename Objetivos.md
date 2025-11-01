@@ -1,6 +1,4 @@
-# Ajuste
-No cadastro de gastos manter o filtro da listagem mesmo trocando de aba.
-Ajustar também para gerar a data 1 ao ultimo dia do mês e não para o 1 do outro mês.
+
 
 # Cadastro de devedores
 

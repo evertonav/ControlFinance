@@ -1,9 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query"
 import { GetUserLogado } from "../../Services/Login/Logar"
 import { EntityExpense } from "../../Services/Expense/EntityExpense"
 import { setExpenseForField } from "./Functions/SetExpenserForField"
 import { GetFirstDayMonthNow, GetLastDayMonthNow } from "../../Utils/Date/GetDateToNumber"
-import { GetListExpenseKey } from "../../QueryKey/ExpenseKey"
 import { useExpense } from "../../Hooks/ExpenseHook"
 
 export default function UseCadExpense() {
@@ -14,13 +12,7 @@ export default function UseCadExpense() {
       add,
       deletar,
       copy      
-  } = useExpense()
-
-    const queryClient = useQueryClient()
-
-    if (deletar.isSuccess || add.isSuccess || update.isSuccess || copy.isSuccess) {
-      queryClient.invalidateQueries({queryKey: GetListExpenseKey()})  
-    }      
+  } = useExpense()        
 
     function Save() {        
       if (expense?.id) {      
