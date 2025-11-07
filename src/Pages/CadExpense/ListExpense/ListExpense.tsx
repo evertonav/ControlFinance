@@ -3,13 +3,13 @@ import { ConverterDataParaPadraoVisual } from "../../../Utils/Date/ConvertDate"
 import ShowIcon from "../../../Components/ShowIcon/ShowIcon"
 import UseCadExpense from "../CadExpenseHook"
 import { useListExpenseReturn } from "./ListExpenseHook"
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useRef } from 'react'
 import { TabsCadastroExpenseEnum } from '../Enum/TabsCadastroExpense'
 import { FilterExpense } from './Actions/FilterExpense'
 import { CopyExpense } from './Actions/CopyExpense'
 import { ButtonArredondado } from '../../../Components/Button/ButtonArredondado'
 import { ShowIconBlue } from '../../../Components/ShowIcon/ShowIconBlue'
-import { ContainerModalFullScreen } from '../../../Containers/Container/ContainerModalFullScreen'
+import { ContainerModalElement, ContainerModalFullScreen } from '../../../Containers/Container/ContainerModalFullScreen'
 import { EntityExpense } from '../../../Services/Expense/EntityExpense'
 
 interface ListExpenseProps {
@@ -17,9 +17,9 @@ interface ListExpenseProps {
     listExpenseHook: useListExpenseReturn
 }
 
-export default function ListExpense({ setAba, listExpenseHook } : ListExpenseProps) {   
-    const [openCopy, setOpenCopy] = useState(false)
-    const [openFilterExpense, setOpenFilterExpense] = useState(false)    
+export default function ListExpense({ setAba, listExpenseHook } : ListExpenseProps) {        
+    const modalCopyRef = useRef<ContainerModalElement>(null) 
+    const modalFilterRef = useRef<ContainerModalElement>(null)
 
     const {
         dayInitial,
@@ -48,26 +48,26 @@ export default function ListExpense({ setAba, listExpenseHook } : ListExpensePro
             <div className={style.containerCabecalho}>    
                 <>
                     <ButtonArredondado onClick={() => {
-                        setOpenCopy(true)
+                        modalCopyRef.current?.open()
                     }} >
                         <ShowIconBlue nameIcon='move_group'/>
                     </ButtonArredondado>
                     
-                    <ContainerModalFullScreen open={openCopy}>
+                    <ContainerModalFullScreen ref={modalCopyRef}>
                         <CopyExpense onAply={(dateFrom, dateTo) => {                            
                             CopyAsync(dateFrom, dateTo).then(() => UpdateList())
-                            setOpenCopy(false)
+                            modalCopyRef.current?.close()
                         }}
-                        onCancel={() => setOpenCopy(false)}/>
+                        onCancel={() => modalCopyRef.current?.close()}/>
                     </ContainerModalFullScreen>                    
                 </>
                 
                 <>
-                    <ButtonArredondado onClick={() => setOpenFilterExpense(true)}>
+                    <ButtonArredondado onClick={() => modalFilterRef.current?.open()}>
                         <ShowIconBlue nameIcon='filter_alt' className={style.colorIconSearch}/>
                     </ButtonArredondado>
                     
-                    <ContainerModalFullScreen open={openFilterExpense}>
+                    <ContainerModalFullScreen ref={modalFilterRef}>
                         <FilterExpense
                             dateInitialFilter={dayInitial}
                             dateFinishFilter={dayFinish}
@@ -75,9 +75,9 @@ export default function ListExpense({ setAba, listExpenseHook } : ListExpensePro
                                 dateInicial && setDayInitial(dateInicial)
                                 dateFinish && setDayFinish(dateFinish)
 
-                                setOpenFilterExpense(false)
+                                modalFilterRef.current?.close()
                             }}
-                            onCancel={() => setOpenFilterExpense(false)}/>      
+                            onCancel={() => modalFilterRef.current?.close()}/>      
                     </ContainerModalFullScreen>                    
                 </>                
             </div>

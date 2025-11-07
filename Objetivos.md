@@ -1,4 +1,6 @@
 
+# Tela inicial
+Ter algo que mostre o orçamento do mês que aparece em verde se for positivo e vermelho se for nagativo.
 
 # Cadastro de devedores
 
