@@ -4,6 +4,7 @@ import CadExpense from '../Pages/CadExpense/CadExpense'
 import { Private } from './Private'
 import Layout from '../Components/Layout/Layout'
 import Main from '../Pages/Main/Main'
+import { InvestimentoContainer } from '../Pages/Investimento/InvestimentoContainer'
 
 const router = createBrowserRouter(
   [
@@ -21,7 +22,11 @@ const router = createBrowserRouter(
         {
           path: '/cad-expense',
           element: <Private><CadExpense/></Private> 
-        }        
+        },
+        {
+          path: '/investimento',
+          element: <Private><InvestimentoContainer/></Private>
+        }       
       ]    
       
     }

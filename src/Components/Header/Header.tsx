@@ -45,6 +45,14 @@ export default function Header() {
                               <Link className={style.linkPerson} to={"/cad-expense"}>
                                 Cadastro Despesas
                               </Link>                              
+                            </MenuItem>,
+
+                            <MenuItem key={2} onClick={() => {
+                              setOpen(false);
+                            }}>
+                              <Link className={style.linkPerson} to={"/investimento"}>
+                                Investimentos
+                              </Link>                              
                             </MenuItem>
                         ]}}/>                    
 
