@@ -8,7 +8,7 @@ export interface CadInvestimento {
 
 export function defaultCadInvestimento() : CadInvestimento {
     return {
-        value: '0.00',
+        value: '0',
         title: '',
         periodicidade: '1',
         dateFim: new Date().valueOf()

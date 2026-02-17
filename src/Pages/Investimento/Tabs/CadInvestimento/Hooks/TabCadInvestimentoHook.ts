@@ -19,7 +19,7 @@ export function useTabCadInvestimento() {
     }
 
     function setValue(value?: number) {
-        setInvestimentoForField(setInvestimento, 'value', value?.toString() ?? '0.00', investimento)        
+        setInvestimentoForField(setInvestimento, 'value', value?.toString() ?? '0', investimento)        
     }
 
     function setIdCorretora(value?: number) {
