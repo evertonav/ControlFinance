@@ -3,7 +3,7 @@ import TabCommon from "../../Components/Tab/TabCommon";
 import Container from "../../Containers/Container/Container";
 import { TabsInvestimento } from "./Enum/TabsInvestimento";
 import { TabListagemInvestimento } from "./Tabs/TabListagemInvestimento";
-import { TabCadInvestimento } from "./Tabs/TabCadInvestimento";
+import { TabCadInvestimento } from "./Tabs/CadInvestimento/TabCadInvestimento";
 
 export function InvestimentoContainer() {
     const [aba, setAba] = useState<string>(TabsInvestimento.Cadastro)
