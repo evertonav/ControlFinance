@@ -1,4 +1,4 @@
-export interface CadInvestimento {
+export interface Investimento {
     title: string
     value: string
     dateFim: number
@@ -6,7 +6,7 @@ export interface CadInvestimento {
     periodicidade: string    
 }
 
-export function defaultCadInvestimento() : CadInvestimento {
+export function defaultCadInvestimento() : Investimento {
     return {
         value: '0',
         title: '',

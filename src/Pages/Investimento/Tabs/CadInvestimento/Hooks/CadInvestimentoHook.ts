@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { CadInvestimento, defaultCadInvestimento } from "../Types";
+import {  defaultCadInvestimento, Investimento } from "../Types";
 import { setInvestimentoForField } from "../Functions/SetValueForFileds";
+import { useOptionsCorretora } from "./OptionsCorretoraHook";
+import { useOptionsPeriodicity } from "./OptionsPeriodicityHook";
 
-export function useTabCadInvestimento() {
-    const [investimento, setInvestimento] = useState<CadInvestimento>(defaultCadInvestimento())
+export function useCadInvestimento() {
+    const [investimento, setInvestimento] = useState<Investimento>(defaultCadInvestimento())
+    const { optionsCorretora } = useOptionsCorretora()
+    const { optionsPeriodicity } = useOptionsPeriodicity()
 
     function setTitle(value: string) {
         setInvestimentoForField(setInvestimento, 'title', value, investimento)        
     }
 
     function setDateFinish(value?: Date) {
-        let investimentoInternal: CadInvestimento;
+        let investimentoInternal: Investimento;
         
         investimentoInternal = { ...investimento }      
         investimentoInternal.dateFim = value?.valueOf() ?? new Date().valueOf()
@@ -23,7 +27,7 @@ export function useTabCadInvestimento() {
     }
 
     function setIdCorretora(value?: number) {
-        let investimentoInternal: CadInvestimento;
+        let investimentoInternal: Investimento;
         
         investimentoInternal = { ...investimento }      
         investimentoInternal.idCorretora = value
@@ -41,6 +45,8 @@ export function useTabCadInvestimento() {
         setDateFinish,
         setValue, 
         setIdCorretora,
-        setPeriodicidade
+        setPeriodicidade,
+        optionsCorretora,
+        optionsPeriodicity
     }
 }

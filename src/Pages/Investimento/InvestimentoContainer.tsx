@@ -3,7 +3,8 @@ import TabCommon from "../../Components/Tab/TabCommon";
 import Container from "../../Containers/Container/Container";
 import { TabsInvestimento } from "./Enum/TabsInvestimento";
 import { TabListagemInvestimento } from "./Tabs/TabListagemInvestimento";
-import { TabCadInvestimento } from "./Tabs/CadInvestimento/TabCadInvestimento";
+import { CadInvestimento } from "./Tabs/CadInvestimento/CadInvestimento";
+import { Investimento } from "./Tabs/CadInvestimento/Types";
 
 export function InvestimentoContainer() {
     const [aba, setAba] = useState<string>(TabsInvestimento.Cadastro)
@@ -18,7 +19,7 @@ export function InvestimentoContainer() {
                     {
                         id: TabsInvestimento.Cadastro,
                         description: 'Cadastro',
-                        children: <TabCadInvestimento />  
+                        children: <CadInvestimento onSuccess={(value: Investimento) => console.log('Deu bom: ', value)}/>  
                     },
                     {
                         id: TabsInvestimento.Listagem,

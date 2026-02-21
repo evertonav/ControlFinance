@@ -13,8 +13,8 @@ export function RadioGroupCommom({ title, group, itensRadio }: RadioGroupCommomP
             {title && (<FormLabel {...title}>{title.children}</FormLabel>)}
             
             <RadioGroup {...group}>
-                {itensRadio.map((item) => {
-                    return <FormControlLabel {...item} control={item.control ?? <Radio />} />
+                {itensRadio.map((item, index) => {
+                    return <FormControlLabel key={index} {...item} control={item.control ?? <Radio />} />
                 })}                       
             </RadioGroup>
         </>

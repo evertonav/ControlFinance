@@ -12,8 +12,8 @@ export function ComboBox({ combo, itensCombo, title} : ComboBoxProps) {
             {title && <InputLabel {...title}>{title.children}</InputLabel> } 
             
             <Select {...combo}>
-                {itensCombo.map(item => {
-                    return <MenuItem {...item}>{item.children}</MenuItem>
+                {itensCombo.map((item, index: number) => {
+                    return <MenuItem key={index} {...item}>{item.children}</MenuItem>
                 })}                       
             </Select>        
         </>

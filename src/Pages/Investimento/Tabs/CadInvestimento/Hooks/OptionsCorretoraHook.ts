@@ -1,13 +1,13 @@
 import { useMemo } from "react"
+import { Corretoras, CorretorasDescricao } from "../Enum/CorretorasEnum"
+import { MenuItemProps } from "@mui/material"
 
 export function useOptionsCorretora() {
-    const optionsCorretora = useMemo(() => {
-        return [
-            {value: 1, children: 'NuBank'},
-            {value: 2, children: 'PicPay'},
-            {value: 3, children: 'Inter'},
-            {value: 4, children: 'Binance'},
-        ]
+    const optionsCorretora: MenuItemProps[] = useMemo(() => {
+        return  Object.values(Corretoras).map((value: string) => ({
+            value,
+            children: CorretorasDescricao[value as Corretoras]
+          }))
     }, [])
 
     return { optionsCorretora }

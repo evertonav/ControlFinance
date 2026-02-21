@@ -6,35 +6,53 @@ import dayjs from "dayjs";
 import { ButtonCommom } from '../../../../Components/Button/ButtonCommon';
 import { RadioGroupCommom } from '../../../../Components/RadrioGroup/RadioGroupCommom';
 import { ComboBox } from '../../../../Components/ComboBox/ComboBox';
-import { useTabCadInvestimento } from './Hooks/TabCadInvestimentoHook';
+import { useCadInvestimento } from './Hooks/CadInvestimentoHook';
 import { ConvertStringToNumber } from '../../../../Utils/Date/ConvertNumber';
 import { useOptionsCorretora } from './Hooks/OptionsCorretoraHook';
 import { useOptionsPeriodicity } from './Hooks/OptionsPeriodicityHook';
+import { Investimento } from './Types';
+import { useForm } from 'react-hook-form';
+import { FormDataCadInvestimento, schemaCadInvestimento } from './Schemas/SchemasValidationCadInvestimento';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Corretoras } from './Enum/CorretorasEnum';
 
-export function TabCadInvestimento() {
+interface CadInvestimentoProps {
+    onSuccess: (value: Investimento) => void
+}
+
+export function CadInvestimento({ onSuccess } : CadInvestimentoProps) {
     const { 
         investimento, 
         setTitle, 
         setDateFinish, 
         setValue, 
         setIdCorretora,
-        setPeriodicidade 
-    } = useTabCadInvestimento()
+        setPeriodicidade,
+        optionsCorretora,
+        optionsPeriodicity
+    } = useCadInvestimento()
 
-    const { optionsCorretora } = useOptionsCorretora()
-    const { optionsPeriodicity } = useOptionsPeriodicity()
+    
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<FormDataCadInvestimento>(
+        {
+            resolver: zodResolver(schemaCadInvestimento),
+            mode: "onChange"
+        }
+    )   
 
     return (
-        <form onSubmit={(event) => {
-            event.preventDefault()
-            console.log(investimento)
-        }}>
+        <form onSubmit={handleSubmit(() => onSuccess(investimento))}>
             <ContainerFields>
                 <InputCommonMUI 
                     title='Título'
                     name='title'
-                    //error={errors.description?.message}
-                    //register={register}          
+                    error={errors.title?.message}
+                    register={register}          
                     value={investimento.title}         
                     handlerOnChange={(event) => setTitle(event.target.value)}
                 />  
@@ -42,8 +60,8 @@ export function TabCadInvestimento() {
                 <InputCommonMUI 
                     title='Valor'
                     name='value'
-                    //error={errors.description?.message}
-                    //register={register}          
+                    error={errors.value?.message}
+                    register={register}          
                     value={investimento.value}         
                     handlerOnChange={(event) => setValue(ConvertStringToNumber(event.target.value))}
                 />  
@@ -62,7 +80,7 @@ export function TabCadInvestimento() {
                         combo={
                         {
                             label: "Corretora", 
-                            value: investimento.idCorretora ?? null, 
+                            value: investimento.idCorretora ?? Corretoras.NuBank, 
                             onChange: (event) => {
                                 setIdCorretora(event.target.value as number | undefined)
                             }
@@ -71,7 +89,6 @@ export function TabCadInvestimento() {
                         itensCombo={optionsCorretora}/>
                 </FormControl>
                 
-
                 <FormControl sx={{width: '100%'}}>
                     <RadioGroupCommom 
                         title={{children: 'Periodicidade'}}
