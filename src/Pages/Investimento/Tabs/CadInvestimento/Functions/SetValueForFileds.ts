@@ -1,14 +1,14 @@
-import { CadInvestimento } from "../Types";
+import { Investimento } from "../Types";
 
 type FieldsString = 'title' | 'value' | 'periodicidade'   
 
 export function setInvestimentoForField(
-    setInvestimento: (investimento: CadInvestimento) => void, 
+    setInvestimento: (investimento: Investimento) => void, 
     field: FieldsString, 
     value: string,
-    investimento: CadInvestimento) 
+    investimento: Investimento) 
 {
-    let investimentoInternal: CadInvestimento;
+    let investimentoInternal: Investimento;
   
     investimentoInternal = { ...investimento }      
     investimentoInternal[field] = value

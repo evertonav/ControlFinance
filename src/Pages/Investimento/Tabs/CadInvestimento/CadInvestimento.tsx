@@ -8,8 +8,6 @@ import { RadioGroupCommom } from '../../../../Components/RadrioGroup/RadioGroupC
 import { ComboBox } from '../../../../Components/ComboBox/ComboBox';
 import { useCadInvestimento } from './Hooks/CadInvestimentoHook';
 import { ConvertStringToNumber } from '../../../../Utils/Date/ConvertNumber';
-import { useOptionsCorretora } from './Hooks/OptionsCorretoraHook';
-import { useOptionsPeriodicity } from './Hooks/OptionsPeriodicityHook';
 import { Investimento } from './Types';
 import { useForm } from 'react-hook-form';
 import { FormDataCadInvestimento, schemaCadInvestimento } from './Schemas/SchemasValidationCadInvestimento';
