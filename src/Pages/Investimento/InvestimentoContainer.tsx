@@ -5,9 +5,11 @@ import { TabsInvestimento } from "./Enum/TabsInvestimento";
 import { TabListagemInvestimento } from "./Tabs/TabListagemInvestimento";
 import { CadInvestimento } from "./Tabs/CadInvestimento/CadInvestimento";
 import { Investimento } from "./Tabs/CadInvestimento/Types";
+import { useAddInvestimento } from "./Hooks/AddInvestimentoHook";
 
 export function InvestimentoContainer() {
     const [aba, setAba] = useState<string>(TabsInvestimento.Cadastro)
+    const { addInvestimento } = useAddInvestimento()
 
     return (
         <Container>      
@@ -19,7 +21,9 @@ export function InvestimentoContainer() {
                     {
                         id: TabsInvestimento.Cadastro,
                         description: 'Cadastro',
-                        children: <CadInvestimento onSuccess={(value: Investimento) => console.log('Deu bom: ', value)}/>  
+                        children: <CadInvestimento onSuccess={async (value: Investimento) => {
+                            await addInvestimento(value)
+                        }}/>  
                     },
                     {
                         id: TabsInvestimento.Listagem,
