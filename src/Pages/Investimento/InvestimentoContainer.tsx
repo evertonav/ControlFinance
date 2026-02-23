@@ -2,7 +2,7 @@ import { useState } from "react";
 import TabCommon from "../../Components/Tab/TabCommon";
 import Container from "../../Containers/Container/Container";
 import { TabsInvestimento } from "./Enum/TabsInvestimento";
-import { TabListagemInvestimento } from "./Tabs/TabListagemInvestimento";
+import { TabListagemInvestimento } from "./Tabs/ListInvestimento/ListagemInvestimento";
 import { CadInvestimento } from "./Tabs/CadInvestimento/CadInvestimento";
 import { Investimento } from "./Tabs/CadInvestimento/Types";
 import { useAddInvestimento } from "./Hooks/AddInvestimentoHook";

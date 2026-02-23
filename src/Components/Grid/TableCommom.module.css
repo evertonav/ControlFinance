@@ -1,0 +1,14 @@
+.container {
+    border-collapse: separate;
+    border-spacing: 0 14px;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    table-layout: fixed;  
+    
+    th, td {
+        padding: 14px;
+        text-align: center;
+    }
+}
+

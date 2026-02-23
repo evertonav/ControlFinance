@@ -1,0 +1,32 @@
+.containerCabecalho {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.colorDeletar {
+    color: rgb(206, 17, 17)
+}
+
+.colorEdit {
+    color: #4CAF50
+}
+
+.mousePointer {
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+.tdProfit {
+    color: #12f98a;
+}
+
+.tdLoss {
+    color: #f91257;
+}
