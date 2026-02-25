@@ -11,7 +11,7 @@ export function setInvestimentoForField(
     let investimentoInternal: Investimento;
   
     investimentoInternal = { ...investimento }      
-    investimentoInternal[field] = value
+    investimentoInternal[field] = value as any
     
     setInvestimento(investimentoInternal)
 }
