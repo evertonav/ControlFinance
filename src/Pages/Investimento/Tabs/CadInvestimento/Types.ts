@@ -1,18 +1,17 @@
+import { EntityInvestimento } from "../../../../Services/Investimento/types"
 import { Periodicitys } from "./Enum/PeriodicitysEnum"
 
-export interface Investimento {
-    title: string
-    value: string
-    dateFim: number
-    idCorretora?: number
-    periodicidade: Periodicitys    
+export type Investimento = Pick<EntityInvestimento, 'title' | 'value' | 'dateFim' | 'idCorretora'> & {
+    periodicidade: Periodicitys
 }
+     
 
-export function defaultCadInvestimento() : Investimento {
+export function defaultCadInvestimento(idCorretora?: number) : Investimento {
     return {
         value: '0',
         title: '',
         periodicidade: Periodicitys.LiquidezDiaria,
-        dateFim: new Date().valueOf()
+        dateFim: new Date().valueOf(),
+        idCorretora: idCorretora
     }
 }

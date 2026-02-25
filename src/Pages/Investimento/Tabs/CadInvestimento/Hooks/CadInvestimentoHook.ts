@@ -3,9 +3,10 @@ import {  defaultCadInvestimento, Investimento } from "../Types";
 import { setInvestimentoForField } from "../Functions/SetValueForFileds";
 import { useOptionsCorretora } from "./OptionsCorretoraHook";
 import { useOptionsPeriodicity } from "./OptionsPeriodicityHook";
+import { Corretoras } from "../Enum/CorretorasEnum";
 
 export function useCadInvestimento() {
-    const [investimento, setInvestimento] = useState<Investimento>(defaultCadInvestimento())
+    const [investimento, setInvestimento] = useState<Investimento>(defaultCadInvestimento(Corretoras.NuBank))
     const { optionsCorretora } = useOptionsCorretora()
     const { optionsPeriodicity } = useOptionsPeriodicity()
 

@@ -12,7 +12,6 @@ import { Investimento } from './Types';
 import { useForm } from 'react-hook-form';
 import { FormDataCadInvestimento, schemaCadInvestimento } from './Schemas/SchemasValidationCadInvestimento';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Corretoras } from './Enum/CorretorasEnum';
 
 interface CadInvestimentoProps {
     onSuccess: (value: Investimento) => void
@@ -28,9 +27,7 @@ export function CadInvestimento({ onSuccess } : CadInvestimentoProps) {
         setPeriodicidade,
         optionsCorretora,
         optionsPeriodicity
-    } = useCadInvestimento()
-
-    
+    } = useCadInvestimento()    
 
     const {
         register,
@@ -78,7 +75,7 @@ export function CadInvestimento({ onSuccess } : CadInvestimentoProps) {
                         combo={
                         {
                             label: "Corretora", 
-                            value: investimento.idCorretora ?? Corretoras.NuBank, 
+                            value: investimento.idCorretora, 
                             onChange: (event) => {
                                 setIdCorretora(event.target.value as number | undefined)
                             }

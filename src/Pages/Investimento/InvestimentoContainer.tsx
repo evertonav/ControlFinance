@@ -6,11 +6,14 @@ import { CadInvestimento } from "./Tabs/CadInvestimento/CadInvestimento";
 import { Investimento } from "./Tabs/CadInvestimento/Types";
 import { useAddInvestimento } from "./Hooks/AddInvestimentoHook";
 import { ListagemInvestimento } from "./Tabs/ListInvestimento/ListagemInvestimento";
-import { Periodicitys } from "./Tabs/CadInvestimento/Enum/PeriodicitysEnum";
+import { useGetInvestimento } from "./Hooks/GetInvestimentoHook";
+import { GetUserLogado } from "../../Services/Login/Logar";
 
 export function InvestimentoContainer() {
     const [aba, setAba] = useState<string>(TabsInvestimento.Cadastro)
+
     const { addInvestimento } = useAddInvestimento()
+    const {investimentos} = useGetInvestimento(GetUserLogado())    
 
     return (
         <Container>      
@@ -22,20 +25,17 @@ export function InvestimentoContainer() {
                     {
                         id: TabsInvestimento.Cadastro,
                         description: 'Cadastro',
-                        children: <CadInvestimento onSuccess={async (value: Investimento) => {
+                        children: <CadInvestimento onSuccess={async (value: Investimento) => {                            
                             await addInvestimento(value)
                         }}/>  
                     },
                     {
                         id: TabsInvestimento.Listagem,
                         description: 'Listagem',
-                        children: <ListagemInvestimento investimentos={[
-                            {title: 'Primeiro investimento', value: '1', dateFim: 11212, periodicidade: Periodicitys.LiquidezDiaria},
-                            {title: 'segundos investimento', value: '1', dateFim: 11212, periodicidade: Periodicitys.LiquidezDiaria}
-                        ]}/>
+                        children: <ListagemInvestimento investimentos={investimentos ?? []}/>
                     }
                 ]
                 }
             />
-    </Container>)
+        </Container>)
 }

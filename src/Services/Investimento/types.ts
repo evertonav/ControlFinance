@@ -1,4 +1,5 @@
 export interface EntityInvestimento {
+    id?: string
     title: string
     value: string
     dateFim: number
@@ -6,3 +7,5 @@ export interface EntityInvestimento {
     periodicidade: number    
     user: string
 }
+
+export type AddInvestimentoRequest = Omit<EntityInvestimento, 'id'>

@@ -1,8 +1,8 @@
 export enum Corretoras {
-    NuBank = '1',
-    PicPay = '2',
-    Inter = '3',
-    Binance = '4'
+    NuBank = 1,
+    PicPay = 2,
+    Inter = 3,
+    Binance = 4
 }
 
 export const CorretorasDescricao: Record<Corretoras, string> = {
