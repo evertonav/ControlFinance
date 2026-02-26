@@ -43,7 +43,7 @@ export default function Header() {
                               setOpen(false);
                             }}>
                               <Link className={style.linkPerson} to={"/cad-expense"}>
-                                Cadastro Despesas
+                                Despesas
                               </Link>                              
                             </MenuItem>,
 

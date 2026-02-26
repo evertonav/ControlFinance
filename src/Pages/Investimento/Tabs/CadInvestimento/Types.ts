@@ -1,4 +1,4 @@
-import { EntityInvestimento } from "../../../../Services/Investimento/types"
+import { EntityInvestimento } from "../../../../Services/Investimento/@Types"
 import { Periodicitys } from "./Enum/PeriodicitysEnum"
 
 export type Investimento = Pick<EntityInvestimento, 'title' | 'value' | 'dateFim' | 'idCorretora'> & {

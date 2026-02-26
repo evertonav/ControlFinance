@@ -4,24 +4,28 @@ import { TableCommom } from '../../../../Components/Grid/TableCommom'
 import { TableHeaderCellCommom } from '../../../../Components/Grid/TableHeaderCellCommom'
 import { TableHeaderCommom } from '../../../../Components/Grid/TableHeaderCommom'
 import { TableRowCommom } from '../../../../Components/Grid/TableRowCommom'
-import { EntityInvestimento } from '../../../../Services/Investimento/types'
+import ShowIcon from '../../../../Components/ShowIcon/ShowIcon'
+import { EntityInvestimento } from '../../../../Services/Investimento/@Types'
 import { ConverterDataParaPadraoVisual } from '../../../../Utils/Date/ConvertDate'
 import { Corretoras, CorretorasDescricao } from '../CadInvestimento/Enum/CorretorasEnum'
+import style from './ListagemInvestimento.module.css'
 
 interface ListagemInvestimentoProps {
     investimentos: Array<EntityInvestimento>
+    onDelete: (value: EntityInvestimento) => void
 }
 
-export function ListagemInvestimento({investimentos} : ListagemInvestimentoProps) {
+export function ListagemInvestimento({investimentos, onDelete} : ListagemInvestimentoProps) {
     
     return (
         <TableCommom>
             <TableHeaderCommom>
                 <TableRowCommom>
-                    <TableHeaderCellCommom scope="col">Título</TableHeaderCellCommom>
-                    <TableHeaderCellCommom scope="col">Valor</TableHeaderCellCommom>                                
-                    <TableHeaderCellCommom scope="col">Data Final</TableHeaderCellCommom>    
-                    <TableHeaderCellCommom scope="col">Corretora</TableHeaderCellCommom>
+                    <TableHeaderCellCommom key={'1'} scope="col">Título</TableHeaderCellCommom>
+                    <TableHeaderCellCommom key={'2'} scope="col">Valor</TableHeaderCellCommom>                                
+                    <TableHeaderCellCommom key={'3'} scope="col">Data Final</TableHeaderCellCommom>    
+                    <TableHeaderCellCommom key={'4'} scope="col">Corretora</TableHeaderCellCommom>
+                    <TableHeaderCellCommom key={'5'} scope="col"></TableHeaderCellCommom>
 
                 </TableRowCommom>
             </TableHeaderCommom>
@@ -30,10 +34,19 @@ export function ListagemInvestimento({investimentos} : ListagemInvestimentoProps
                 {investimentos.map((item, index) => {
                     return (
                         <TableRowCommom backGroundColor='Black'>
-                            <TableCellDataCommom key={index} data-label='Título'> {item.title} </TableCellDataCommom>
-                            <TableCellDataCommom key={index + 2} data-label='Valor'> {item.value} </TableCellDataCommom>
-                            <TableCellDataCommom key={index + 3} data-label='Data Final'> {ConverterDataParaPadraoVisual(new Date(item.dateFim))} </TableCellDataCommom>
-                            <TableCellDataCommom key={index + 4} data-label='Corretora'> {item.idCorretora ? CorretorasDescricao[item.idCorretora as Corretoras] : 'Sem Corretora'} </TableCellDataCommom>
+                            <TableCellDataCommom key={`Titulo_${index}`} data-label='Título'> {item.title} </TableCellDataCommom>
+                            <TableCellDataCommom key={`Valor_${index}`} data-label='Valor'> {item.value} </TableCellDataCommom>
+                            <TableCellDataCommom key={`DateFinish_${index}`} data-label='Data Final'> {ConverterDataParaPadraoVisual(new Date(item.dateFim))} </TableCellDataCommom>
+                            <TableCellDataCommom key={`Corretora_${index}`} data-label='Corretora'> {item.idCorretora ? CorretorasDescricao[item.idCorretora as Corretoras] : 'Sem Corretora'} </TableCellDataCommom>
+                            <TableCellDataCommom key={`Delete_${index}`} data-label=''> 
+                                <ShowIcon 
+                                    nameIcon="delete"
+                                    className={`${style.colorDeletar} ${style.mousePointer}`}
+                                    onClick={() => {
+                                        onDelete(item)
+                                    }}/>
+
+                            </TableCellDataCommom>
                         </TableRowCommom>  
                     )
                 })}       

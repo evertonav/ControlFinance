@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { Investimento } from "../Tabs/CadInvestimento/Types"
-import { EntityInvestimento } from "../../../Services/Investimento/types"
+import { EntityInvestimento } from "../../../Services/Investimento/@Types"
 import toast from "react-hot-toast"
 import { AddInvestimento } from "../../../Services/Investimento/AddInvestimento"
 import { GetUserLogado } from "../../../Services/Login/Logar"

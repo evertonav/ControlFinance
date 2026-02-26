@@ -9,3 +9,6 @@ export interface EntityInvestimento {
 }
 
 export type AddInvestimentoRequest = Omit<EntityInvestimento, 'id'>
+
+export const nameTable = 'investimentos'
+
